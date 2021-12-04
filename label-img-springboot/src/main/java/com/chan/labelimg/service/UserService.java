@@ -14,16 +14,25 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public boolean isExist(String username){
+    public boolean isExistUsername(String username) {
         User user = userMapper.getByUsername(username);
-        return null!=user;
+        return null != user;
     }
 
-    public User getByName(String username){
+    public boolean isExistEmail(String email) {
+        User user = userMapper.getByEmail(email);
+        return null != user;
+    }
+
+    public User getByName(String username) {
         return userMapper.getByUsername(username);
     }
 
-    public User getByNameAndPassword(String username, String password){
-        return userMapper.getByUsernameAndPassword(username,password);
+    public User getByNameAndPassword(String username, String password) {
+        return userMapper.getByUsernameAndPassword(username, password);
+    }
+
+    public int signupUser(String username, String password,String email){
+        return userMapper.signupUser(username,password,email);
     }
 }

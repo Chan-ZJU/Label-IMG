@@ -1,8 +1,6 @@
 package com.chan.labelimg.pojo;
 
-import com.chan.labelimg.controller.SignupController;
 import com.chan.labelimg.validate.Signup;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +23,7 @@ public class User {
     int id;
 
     @NotNull
-    @Size(min = 3, max = 15)
+    @Size(min = 6, max = 50)
     String username;
 
     @NotNull
