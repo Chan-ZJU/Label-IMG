@@ -23,6 +23,7 @@ export default {
   },
   methods: {
     login() {
+      let _this = this
       axios.post('/login', {
         username: this.loginForm.username,
         password: this.loginForm.password
@@ -30,7 +31,9 @@ export default {
           .then(successResponse => {
             console.log(successResponse)
             if (successResponse.data.code === 200) {
-              this.$router.replace({path: '/index'})
+              _this.$store.commit('login', _this.loginForm)
+              let path = this.$route.query.redirect
+              this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
             }
           })
           // eslint-disable-next-line no-unused-vars
