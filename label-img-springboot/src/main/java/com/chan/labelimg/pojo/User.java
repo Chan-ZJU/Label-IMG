@@ -6,10 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 /**
  * @author: chen zheng
@@ -22,15 +19,15 @@ import javax.validation.constraints.Size;
 public class User {
     int id;
 
-    @NotNull
+    @NotBlank
     @Size(min = 6, max = 50)
     String username;
 
-    @NotNull
-    @Min(6)
+    @NotBlank
+    @Size(min = 6)
     String password;
 
     @Email(groups = Signup.class)
-    @NotNull(groups = Signup.class)
+    @NotBlank(groups = Signup.class)
     String email;
 }
