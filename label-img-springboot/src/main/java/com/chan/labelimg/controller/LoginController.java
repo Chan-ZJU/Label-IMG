@@ -7,10 +7,12 @@ import com.chan.labelimg.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.Objects;
 
 /**
@@ -28,7 +30,7 @@ public class LoginController {
     @CrossOrigin
     @PostMapping(value = "/login")
     @ApiOperation(value = "用户登录")
-    public Result login(@RequestBody User user) {
+    public Result login(@Validated() @RequestBody User user) {
         String username = user.getUsername();
         username = HtmlUtils.htmlEscape(username);
 

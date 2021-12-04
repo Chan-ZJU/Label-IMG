@@ -1,5 +1,7 @@
 package com.chan.labelimg.pojo;
 
+import com.chan.labelimg.controller.SignupController;
+import com.chan.labelimg.validate.Signup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -30,7 +32,7 @@ public class User {
     @Min(6)
     String password;
 
-    @Email
-    @NotNull
+    @Email(groups = Signup.class)
+    @NotNull(groups = Signup.class)
     String email;
 }
