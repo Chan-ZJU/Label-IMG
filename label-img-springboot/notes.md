@@ -9,3 +9,15 @@ CREATE TABLE `user` (
                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
+>sql for create table video and img
+```sql
+create table `img` (
+                       `id` int unsigned not null auto_increment,
+                       `url` varchar(128) not null,
+                       `missionID` int default null,
+                       `fromID` int not null,
+                       `kind` int not null,
+                       PRIMARY KEY (`id`)
+#     FOREIGN KEY (`missionID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
