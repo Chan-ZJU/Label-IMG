@@ -5,6 +5,7 @@ import store from "./store";
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
+
 const axios = require('axios');
 axios.defaults.baseURL = 'http://localhost:8081/api'
 
