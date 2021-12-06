@@ -3,8 +3,11 @@ package com.chan.labelimg.controller;
 import com.chan.labelimg.pojo.Img;
 import com.chan.labelimg.pojo.Result;
 import com.chan.labelimg.service.UploadService;
+import com.chan.labelimg.utils.OssService;
+import com.chan.labelimg.utils.OssServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -30,6 +34,21 @@ public class UploadController {
 
     @Value("${file.upload.path}")
     private String filePath;
+
+    @Autowired
+    private OssService ossService;
+
+    @PostMapping("/ossUpload")
+    public String uploadOssFile(@RequestParam("file") MultipartFile file) {
+        InputStream inputStream = null;
+        try {
+            inputStream = file.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String url = ossService.uploadFile(inputStream, file.getOriginalFilename());
+        return url;
+    }
 
     @CrossOrigin
     @PostMapping("/upload")
