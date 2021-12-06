@@ -1,8 +1,11 @@
 <template>
   <el-card>
     用户名:<input type="text" v-model="loginForm.username" placeholder="请输入用户名">
+    <br>
     密码:<input type="password" v-model="loginForm.password" placeholder="请输入密码">
+    <br>
     <button v-on:click="login">登录</button>
+    <br>
     <router-link to="/signup">注册</router-link>
   </el-card>
 </template>

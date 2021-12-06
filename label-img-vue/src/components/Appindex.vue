@@ -1,8 +1,7 @@
 <template>
 <div>
-  Hello world!
   <br>
-  {{this.$store.state.user}}
+  userID: {{this.$store.state.user.userID}}
   <br>
   <Upload></Upload>
   <Video></Video>

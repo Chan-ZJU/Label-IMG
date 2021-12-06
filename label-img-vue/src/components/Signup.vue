@@ -1,11 +1,15 @@
 <template>
-<div>
+<el-card>
   用户名:<input type="text" v-model="signupForm.username" placeholder="请输入用户名">
+  <br>
   密码:<input type="password" v-model="signupForm.password" placeholder="请输入密码">
+  <br>
   邮箱:<input type="email" v-model="signupForm.email" placeholder="请输入邮箱">
+  <br>
   <button v-on:click="signup">注册</button>
+  <br>
   <router-link to="/login">已有账号?点击登录</router-link>
-</div>
+</el-card>
 </template>
 
 <script>

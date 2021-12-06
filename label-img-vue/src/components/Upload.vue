@@ -25,7 +25,7 @@
       </div>
     </template>
   </el-upload>
-  <el-image src="http://localhost:8081/BS2021/12/05f69542bd4a674c60846ee22e24c50d2e.jpg"></el-image>
+  <el-image src="http://localhost:8081/BS/ffcf336c01394d4a8c80219c132f5fcc.png"></el-image>
   <br>
 </template>
 

@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name:"video",
+  name:"Video",
   data() {
     return {
       imgSrc:''
