@@ -25,24 +25,8 @@
       </div>
     </template>
   </el-upload>
+  <el-image src="http://localhost:8081/BS2021/12/05f69542bd4a674c60846ee22e24c50d2e.jpg"></el-image>
   <br>
-  <el-upload
-      class="upload-demo"
-      action="http://localhost:8081/api/upload"
-      :on-preview="handlePreview"
-      :on-remove="handleRemove"
-      :before-remove="beforeRemove"
-      multiple
-      :limit="3"
-      :file-list="fileList"
-  >
-    <el-button size="small" type="primary">Click to upload</el-button>
-    <template #tip>
-      <div class="el-upload__tip">
-        jpg/png files with a size less than 500kb
-      </div>
-    </template>
-  </el-upload>
 </template>
 
 <script setup>
@@ -69,13 +53,12 @@ export default {
       console.log(file)
     },
     beforeRemove(file) {
-      return this.confirm(`确认删除${file.name}?`)
+      return this.$confirm(`确认删除${file.name}?`)
     },
     handleSuccess(response) {
       console.log(response)
       this.url = response
       // this.$emit('onUpload')
-      this.message.warning('上传成功')
     }
   }
 }
