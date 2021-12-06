@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.groups.Default;
 import java.util.Objects;
@@ -33,32 +35,37 @@ public class UserController {
     @CrossOrigin
     @PostMapping(value = "/login")
     @ApiOperation(value = "用户登录")
-    public Result login(@Validated() @RequestBody User user) {
+    public Result login(HttpServletRequest request, @Validated() @RequestBody User user) {
         String username = user.getUsername();
         username = HtmlUtils.htmlEscape(username);
 
         User user1 = userService.getByNameAndPassword(username, user.getPassword());
         if (null == user1) {
-            return new Result(400);
+            return new Result(400,-1);
         } else {
-            return new Result(200);
+            HttpSession session = request.getSession();
+            session.setAttribute("username", username);
+            session.setAttribute("userID", user1.getId());
+            return new Result(200, user1.getId());
         }
     }
 
     @CrossOrigin
     @PostMapping(value = "/signup")
     @ApiOperation(value = "用户注册")
-    public Result signup(@Validated({Signup.class, Default.class}) @RequestBody User user) {
+    public Result signup(HttpServletRequest request,@Validated({Signup.class, Default.class}) @RequestBody User user) {
+        HttpSession session = request.getSession();
+        session.invalidate();
         String username = user.getUsername();
         username = HtmlUtils.htmlEscape(username);
         String email = user.getEmail();
         email = HtmlUtils.htmlEscape(email);
 
         if (userService.isExistEmail(email) || userService.isExistUsername(username)) {
-            return new Result(400);
+            return new Result(400, -1);
         } else {
             userService.signupUser(username, user.getPassword(), user.getEmail());
-            return new Result(200);
+            return new Result(200, -1);
         }
     }
 }

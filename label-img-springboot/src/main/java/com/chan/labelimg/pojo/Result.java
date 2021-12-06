@@ -18,4 +18,5 @@ import javax.validation.constraints.NotNull;
 @ApiModel(description = "返回码")
 public class Result {
     private int code;
+    private int userID;
 }
