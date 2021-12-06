@@ -12,6 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ResourceUrlMapping implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/BS2021/**").addResourceLocations("file:C:\\Users\\10721\\Pictures\\BS2021\\");
+        registry.addResourceHandler("/BS/**").addResourceLocations("file:C:\\Users\\10721\\Pictures\\BS\\");
     }
 }
