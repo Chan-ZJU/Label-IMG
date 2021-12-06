@@ -17,7 +17,8 @@ export default {
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        userID: ''
       },
       responseResult: []
     }
@@ -33,6 +34,7 @@ export default {
           .then(successResponse => {
             console.log(successResponse)
             if (successResponse.data.code === 200) {
+              _this.loginForm.userID = successResponse.data.userID
               _this.$store.commit('login', _this.loginForm)
               let path = this.$route.query.redirect
               this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})

@@ -7,6 +7,7 @@
       multiple
       show-file-list
       :on-preview="handlePreview"
+      :before-upload="beforeUpload"
       :on-remove="handleRemove"
       :before-remove="beforeRemove"
       :on-success="handleSuccess"
@@ -18,6 +19,24 @@
     <div class="el-upload__text">
       Drop file here or <em>click to upload</em>
     </div>
+    <template #tip>
+      <div class="el-upload__tip">
+        jpg/png files with a size less than 500kb
+      </div>
+    </template>
+  </el-upload>
+  <br>
+  <el-upload
+      class="upload-demo"
+      action="http://localhost:8081/api/upload"
+      :on-preview="handlePreview"
+      :on-remove="handleRemove"
+      :before-remove="beforeRemove"
+      multiple
+      :limit="3"
+      :file-list="fileList"
+  >
+    <el-button size="small" type="primary">Click to upload</el-button>
     <template #tip>
       <div class="el-upload__tip">
         jpg/png files with a size less than 500kb
@@ -40,6 +59,9 @@ export default {
     }
   },
   methods: {
+    beforeUpload(file){
+      console.log(file.raw)
+    },
     handlePreview(file) {
       console.log(file)
     },
@@ -50,6 +72,7 @@ export default {
       return this.confirm(`确认删除${file.name}?`)
     },
     handleSuccess(response) {
+      console.log(response)
       this.url = response
       // this.$emit('onUpload')
       this.message.warning('上传成功')

@@ -1,6 +1,9 @@
 <template>
 <div>
   Hello world!
+  <br>
+  {{this.$store.state.user}}
+  <br>
   <Upload></Upload>
 </div>
 </template>

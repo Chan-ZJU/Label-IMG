@@ -33,7 +33,7 @@ export default {
       .then((successResponse=>{
         console.log(successResponse)
         if(successResponse.data.code === 200){
-          this.$router.replace('/')
+          this.$router.replace('/login')
         }
       }))
     }

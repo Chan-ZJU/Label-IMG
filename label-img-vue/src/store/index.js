@@ -2,9 +2,7 @@ import {createStore} from 'vuex'
 
 export default createStore({
     state: {
-        user: {
-            username: window.sessionStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.sessionStorage.getItem('user' || '[]')).username
-        }
+        user: window.sessionStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.sessionStorage.getItem('user' || '[]')).username
     },
     mutations: {
         login(state, user) {
