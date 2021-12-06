@@ -31,26 +31,24 @@ public class UploadController {
     @Value("${file.upload.path}")
     private String filePath;
 
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-
     @CrossOrigin
     @PostMapping("/upload")
     @ApiOperation(value = "上传文件")
     public Result upload(@RequestParam(value = "file") MultipartFile multipartFiles) throws IOException {
-        System.out.println("file is "+multipartFiles);
-        String directory = simpleDateFormat.format(new Date());
-        File dir = new File(filePath + directory);
+        File dir = new File(filePath);
+        System.out.println(dir.toString());
         if (!dir.exists()) {
             dir.mkdirs();
         }
         String suffix = multipartFiles.getOriginalFilename().substring(multipartFiles.getOriginalFilename().lastIndexOf("."));
         String newFileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
-        File newFile = new File(filePath + directory + newFileName);
+        File newFile = new File(filePath + newFileName);
+        System.out.println(newFile.toString());
         try {
             multipartFiles.transferTo(newFile);
             return new Result(200, -1);
         } catch (IOException e) {
-            return new Result(401,-1);
+            return new Result(401, -1);
         }
     }
 }
