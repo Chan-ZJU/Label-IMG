@@ -2,10 +2,9 @@ package com.chan.labelimg.controller;
 
 import com.chan.labelimg.pojo.FromID;
 import com.chan.labelimg.pojo.Img;
-import com.chan.labelimg.service.ImageService;
+import com.chan.labelimg.service.UploadService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.RequestScope;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class ImgController {
     @Resource
-    private ImageService imageService;
+    private UploadService imageService;
 
     @CrossOrigin
     @PostMapping("/myImg")

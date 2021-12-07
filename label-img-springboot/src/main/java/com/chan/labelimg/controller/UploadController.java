@@ -1,7 +1,7 @@
 package com.chan.labelimg.controller;
 
 import com.chan.labelimg.pojo.Result;
-import com.chan.labelimg.service.ImageService;
+import com.chan.labelimg.service.UploadService;
 import com.chan.labelimg.utils.OssService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +25,7 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class UploadController {
     @Resource
-    private ImageService uploadService;
+    private UploadService uploadService;
 
     @Value("${file.upload.path}")
     private String filePath;
@@ -35,7 +35,7 @@ public class UploadController {
 
     @CrossOrigin
     @PostMapping("/ossUpload")
-    public String uploadOssFile(@RequestParam("file") MultipartFile file, @RequestParam("ID") int ID) {
+    public String uploadOssFile(@RequestParam("file") MultipartFile file, @RequestParam("ID") int ID, @RequestParam("type") int type) {
         InputStream inputStream = null;
         try {
             inputStream = file.getInputStream();
@@ -43,7 +43,11 @@ public class UploadController {
             e.printStackTrace();
         }
         String url = ossService.uploadFile(inputStream, file.getOriginalFilename());
-        uploadService.uploadImg(ID, url);
+        if (type == 0) {
+            uploadService.uploadImg(ID, url);
+        } else {
+            uploadService.uploadVideo(ID, url);
+        }
         return url;
     }
 
