@@ -2,9 +2,8 @@
   <el-upload
       class="upload"
       ref="upload"
+      :data="user"
       drag
-      :data="userID"
-      :thumbnail-mode="true"
       action="http://localhost:8081/api/ossUpload"
       multiple
       show-file-list
@@ -46,7 +45,8 @@ export default {
     return {
       fileList: [],
       url: '',
-      userID: {ID: this.$store.state.user.userID},
+      //type: 1 is video
+      user: {ID: this.$store.state.user.userID, type:1},
       dialogVisible: false,
       dialogVideoUrl: ''
     }
@@ -57,8 +57,8 @@ export default {
     },
     handlePreview(file) {
       console.log(file)
-      console.log(this.url)
-      this.dialogVideoUrl = this.url
+      console.log(file.response)
+      this.dialogVideoUrl = file.response
       this.dialogVisible = true
     },
     handleRemove(file) {

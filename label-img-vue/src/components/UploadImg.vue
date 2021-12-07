@@ -2,7 +2,7 @@
   <el-upload
       class="upload"
       ref="upload"
-      :data="userID"
+      :data="user"
       action="http://localhost:8081/api/ossUpload"
       multiple
       list-type="picture-card"
@@ -43,7 +43,8 @@ export default {
     return {
       fileList: [],
       url: '',
-      userID: {ID: this.$store.state.user.userID},
+      // type: 0 is image
+      user: {ID: this.$store.state.user.userID, type: 0},
       dialogImageUrl: '',
       dialogVisible: false
     }
@@ -52,9 +53,8 @@ export default {
     beforeUpload(file) {
       console.log(file.raw)
     },
-    handlePreview() {
-      console.log(this.url)
-      this.dialogImageUrl = this.url
+    handlePreview(file) {
+      this.dialogImageUrl = file.response
       this.dialogVisible = true
     },
     handleRemove(file) {

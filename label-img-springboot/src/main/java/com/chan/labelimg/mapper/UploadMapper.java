@@ -13,7 +13,7 @@ import java.util.List;
  * @Date: 12/5/2021 2:29 PM
  */
 @Mapper
-public interface ImgMapper {
+public interface UploadMapper {
     /**
      * @param fromID who upload the img
      * @param url    the url of the img
@@ -28,4 +28,12 @@ public interface ImgMapper {
      */
     @Select("select * from img where fromID = #{fromID} and kind = 0")
     List<Img> getImg(@Param("fromID") int fromID);
+
+    /**
+     * @param fromID fromID
+     * @param url    url
+     * @return int code
+     */
+    @Insert("insert into video (url, fromID, kind) values (#{url}, #{fromID}, 0)")
+    int uploadVideo(@Param("fromID") int fromID, @Param("url") String url);
 }
