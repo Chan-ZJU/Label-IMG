@@ -3,7 +3,9 @@
       class="upload"
       ref="upload"
       drag
-      action="http://localhost:8081/api/upload"
+      :data="userID"
+      :thumbnail-mode="true"
+      action="http://localhost:8081/api/ossUpload"
       multiple
       show-file-list
       :on-preview="handlePreview"
@@ -25,29 +27,39 @@
       </div>
     </template>
   </el-upload>
-  <el-image src="http://localhost:8081/BS/ffcf336c01394d4a8c80219c132f5fcc.png"></el-image>
+  <el-dialog v-model="dialogVisible">
+    <video width=500 :src="dialogVideoUrl" controls alt=""></video>
+  </el-dialog>
   <br>
+  <Video></Video>
 </template>
 
 <script setup>
 import {UploadFilled} from '@element-plus/icons'
+import Video from "@/components/Video";
 </script>
 
 <script>
 export default {
-  name: "Upload",
+  name: "UploadVideo",
   data() {
     return {
       fileList: [],
-      url: ''
+      url: '',
+      userID: {ID: this.$store.state.user.userID},
+      dialogVisible: false,
+      dialogVideoUrl: ''
     }
   },
   methods: {
-    beforeUpload(file){
+    beforeUpload(file) {
       console.log(file.raw)
     },
     handlePreview(file) {
       console.log(file)
+      console.log(this.url)
+      this.dialogVideoUrl = this.url
+      this.dialogVisible = true
     },
     handleRemove(file) {
       console.log(file)

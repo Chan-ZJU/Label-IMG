@@ -4,6 +4,9 @@ import Login from "@/components/Login";
 import store from "@/store";
 import Home from "@/components/Home";
 import Signup from "@/components/Signup";
+import UploadImg from "@/components/UploadImg";
+import UploadVideo from "@/components/UploadVideo";
+import MyPhoto from "@/components/MyPhoto";
 
 const routes = [
     {
@@ -19,7 +22,31 @@ const routes = [
                 meta: {
                     requireAuth: true
                 }
-            }
+            },
+            {
+                path: '/uploadIMG',
+                name: 'UploadImg',
+                component: UploadImg,
+                meta: {
+                    requireAuth: true
+                }
+            },
+            {
+                path: 'myPhoto',
+                name: 'myphoto',
+                component: MyPhoto,
+                meta: {
+                    requireAuth: true
+                }
+            },
+            {
+                path: 'uploadVIDEO',
+                name: 'UploadVideo',
+                component: UploadVideo,
+                meta: {
+                    requireAuth: true
+                }
+            },
         ]
     },
     {
