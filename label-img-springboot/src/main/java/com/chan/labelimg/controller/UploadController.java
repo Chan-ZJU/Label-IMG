@@ -1,15 +1,12 @@
 package com.chan.labelimg.controller;
 
-import com.chan.labelimg.pojo.Img;
 import com.chan.labelimg.pojo.Result;
-import com.chan.labelimg.service.UploadService;
+import com.chan.labelimg.service.ImageService;
 import com.chan.labelimg.utils.OssService;
-import com.chan.labelimg.utils.OssServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,8 +14,6 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -30,7 +25,7 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class UploadController {
     @Resource
-    private UploadService uploadService;
+    private ImageService uploadService;
 
     @Value("${file.upload.path}")
     private String filePath;
@@ -38,8 +33,9 @@ public class UploadController {
     @Autowired
     private OssService ossService;
 
+    @CrossOrigin
     @PostMapping("/ossUpload")
-    public String uploadOssFile(@RequestParam("file") MultipartFile file) {
+    public String uploadOssFile(@RequestParam("file") MultipartFile file, @RequestParam("ID") int ID) {
         InputStream inputStream = null;
         try {
             inputStream = file.getInputStream();
@@ -47,14 +43,17 @@ public class UploadController {
             e.printStackTrace();
         }
         String url = ossService.uploadFile(inputStream, file.getOriginalFilename());
+        uploadService.uploadImg(ID, url);
         return url;
     }
 
+    //TODO: use oss instead, need to delete upload function
     @CrossOrigin
     @PostMapping("/upload")
     @ApiOperation(value = "上传文件")
-    public Result upload(@RequestParam(value = "file") MultipartFile multipartFiles) throws IOException {
+    public Result upload(@RequestParam(value = "file") MultipartFile multipartFiles, @RequestParam("ID") int ID) throws IOException {
         File dir = new File(filePath);
+        System.out.println(ID);
         System.out.println(dir.toString());
         if (!dir.exists()) {
             dir.mkdirs();
@@ -65,6 +64,7 @@ public class UploadController {
         System.out.println(newFile.toString());
         try {
             multipartFiles.transferTo(newFile);
+            uploadService.uploadImg(ID, newFile.toString());
             return new Result(200, -1);
         } catch (IOException e) {
             return new Result(401, -1);

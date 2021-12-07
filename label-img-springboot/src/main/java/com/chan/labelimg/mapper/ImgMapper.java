@@ -1,8 +1,12 @@
 package com.chan.labelimg.mapper;
 
+import com.chan.labelimg.pojo.Img;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * @author: chen zheng
@@ -17,4 +21,11 @@ public interface ImgMapper {
      */
     @Insert("insert into img (url, fromID, kind) values (#{url}, #{fromID}, 0)")
     int uploadImg(@Param("fromID") int fromID, @Param("url") String url);
+
+    /**
+     * @param fromID fromID
+     * @return all his images
+     */
+    @Select("select * from img where fromID = #{fromID} and kind = 0")
+    List<Img> getImg(@Param("fromID") int fromID);
 }
