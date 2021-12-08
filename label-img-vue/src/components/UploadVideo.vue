@@ -28,7 +28,17 @@
   </el-upload>
   <el-dialog v-model="dialogVisible">
     <video id="video" width=400 :src=dialogVideoUrl controls alt=""></video>
-    <el-button @click="screenShot">截图</el-button>
+    <br>
+    <el-button @click="screenShot">点击截图</el-button>
+    <el-form :inline="true">
+      <el-form-item>
+        <el-input v-model="srcInterval" placeholder="请输入截图间隔(ms)">截图间隔</el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-input v-model="srcNum" placeholder="请输入截图数量">截图张数</el-input>
+      </el-form-item>
+      <el-button @click="autoScreenShot">自动截图</el-button>
+    </el-form>
     <div id="photos"></div>
   </el-dialog>
   <img :src="imgSrc">
@@ -53,11 +63,17 @@ export default {
       user: {ID: this.$store.state.user.userID, type: 1},
       dialogVisible: false,
       dialogVideoUrl: '',
-      imgSrc: ''
+      imgSrc: '',
+      srcInterval: 1000,
+      srcNum: 3
     }
   },
   methods: {
     beforeUpload(file) {
+      console.log(this.fileList)
+      if (this.fileList.length > 0) {
+        this.fileList = []
+      }
       console.log(file.raw)
     },
     handlePreview(file) {
@@ -76,6 +92,12 @@ export default {
       console.log(response)
       this.url = response
       // this.$emit('onUpload')
+    },
+    autoScreenShot() {
+      document.querySelector('video').play()
+      for (let i = 0; i < this.srcNum; i++) {
+        setTimeout(this.screenShot, this.srcInterval * i)
+      }
     },
     screenShot() {
       let video = document.getElementById("video")
@@ -117,7 +139,10 @@ export default {
       let fileName = 'photo.png'
       let fileOfBlob = new window.File([blob], fileName, {type: 'image/png'})
       console.log(fileOfBlob)
-
+      this.uploadScreenshot(fileOfBlob)
+      return canvas;
+    },
+    uploadScreenshot(fileOfBlob) {
       let form = new FormData();
       form.append("file", fileOfBlob)
       form.append("ID", this.$store.state.user.userID)
@@ -128,8 +153,6 @@ export default {
       }).catch(error => {
         console.log(error)
       })
-
-      return canvas;
     }
   }
 }
