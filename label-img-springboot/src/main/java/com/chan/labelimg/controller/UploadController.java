@@ -51,11 +51,10 @@ public class UploadController {
         return url;
     }
 
-    //TODO: use oss instead, need to delete upload function
     @CrossOrigin
     @PostMapping("/upload")
     @ApiOperation(value = "上传文件")
-    public Result upload(@RequestParam(value = "file") MultipartFile multipartFiles, @RequestParam("ID") int ID) throws IOException {
+    public String upload(@RequestParam(value = "file") MultipartFile multipartFiles, @RequestParam("ID") int ID) throws IOException {
         File dir = new File(filePath);
         System.out.println(ID);
         System.out.println(dir.toString());
@@ -68,10 +67,11 @@ public class UploadController {
         System.out.println(newFile.toString());
         try {
             multipartFiles.transferTo(newFile);
-            uploadService.uploadImg(ID, newFile.toString());
-            return new Result(200, -1);
+            uploadService.uploadVideo(ID, newFileName);
+            return newFileName;
         } catch (IOException e) {
-            return new Result(401, -1);
+            e.printStackTrace();
+            return null;
         }
     }
 }
