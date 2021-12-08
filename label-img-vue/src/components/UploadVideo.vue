@@ -4,7 +4,7 @@
       ref="upload"
       :data="user"
       drag
-      action="http://localhost:8081/api/ossUpload"
+      action="http://localhost:8081/api/upload"
       multiple
       show-file-list
       :on-preview="handlePreview"
@@ -27,28 +27,33 @@
     </template>
   </el-upload>
   <el-dialog v-model="dialogVisible">
-    <video width=500 :src="dialogVideoUrl" controls alt=""></video>
+    <video id="video" width=400 :src=dialogVideoUrl controls alt=""></video>
+    <el-button @click="screenShot">截图</el-button>
+    <div id="photos"></div>
   </el-dialog>
+  <img :src="imgSrc">
   <br>
-  <Video></Video>
 </template>
 
 <script setup>
 import {UploadFilled} from '@element-plus/icons'
-import Video from "@/components/Video";
 </script>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "UploadVideo",
   data() {
     return {
+      listThumbnails: [],
       fileList: [],
       url: '',
       //type: 1 is video
-      user: {ID: this.$store.state.user.userID, type:1},
+      user: {ID: this.$store.state.user.userID, type: 1},
       dialogVisible: false,
-      dialogVideoUrl: ''
+      dialogVideoUrl: '',
+      imgSrc: ''
     }
   },
   methods: {
@@ -71,6 +76,60 @@ export default {
       console.log(response)
       this.url = response
       // this.$emit('onUpload')
+    },
+    screenShot() {
+      let video = document.getElementById("video")
+      let photos = document.getElementById("photos")
+      let canvas = this.createThumbnail(video, 0.25)
+      canvas.onclick = function () {
+        window.open(this.toDataURL());
+      };
+      this.listThumbnails.unshift(canvas);
+      photos.innerHTML = "";
+      this.listThumbnails.forEach((item) => {
+        if (item) {
+          photos.appendChild(item);
+        }
+      });
+    },
+    createThumbnail(video, scaleFactor) {
+      if (scaleFactor == null) {
+        scaleFactor = 1;
+      }
+      let w = video.videoWidth * scaleFactor;
+      let h = video.videoHeight * scaleFactor;
+      let canvas = document.createElement("canvas");
+      canvas.style.margin = "5px";
+      canvas.width = w;
+      canvas.height = h;
+
+      let ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, w, h);
+
+      let data = canvas.toDataURL('image/png')
+      data = data.split(',')[1]
+      data = window.atob(data)
+      let ia = new Uint8Array(data.length)
+      for (let i = 0; i < data.length; i++) {
+        ia[i] = data.charCodeAt(i)
+      }
+      let blob = new Blob([ia], {type: 'image/png'})
+      let fileName = 'photo.png'
+      let fileOfBlob = new window.File([blob], fileName, {type: 'image/png'})
+      console.log(fileOfBlob)
+
+      let form = new FormData();
+      form.append("file", fileOfBlob)
+      form.append("ID", this.$store.state.user.userID)
+      form.append("type", 0)
+
+      axios.post("/ossUpload", form, {headers: {'Content-Type': 'multipart/form-data'}}).then(successResponse => {
+        console.log(successResponse.data)
+      }).catch(error => {
+        console.log(error)
+      })
+
+      return canvas;
     }
   }
 }
