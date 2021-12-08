@@ -4,5 +4,6 @@
 > A website to Label IMG for deep learning training
 
 - [ ] integrate shiro for security
-- [ ] upload file to oss instead
+- [x] upload file to oss instead
 - [ ] Use JavaMailSender to send email when the task is completed
+- [ ] Vue uploader check file types (video and image)

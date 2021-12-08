@@ -11,6 +11,7 @@ CREATE TABLE `user` (
 ```
 >sql for create table video and img
 ```sql
+drop table if exists `img`;
 create table `img` (
                        `id` int unsigned not null auto_increment,
                        `url` varchar(128) not null,
@@ -21,6 +22,7 @@ create table `img` (
 #     FOREIGN KEY (`missionID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+drop table if exists `video`;
 create table `video` (
                        `id` int unsigned not null auto_increment,
                        `url` varchar(128) not null,
