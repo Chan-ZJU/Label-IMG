@@ -1,4 +1,5 @@
 <template>
+  <p>上传视频</p>
   <el-upload
       class="upload"
       ref="upload"

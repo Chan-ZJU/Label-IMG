@@ -1,10 +1,10 @@
 <template>
-$END$
+<p>all missions</p>
 </template>
 
 <script>
 export default {
-name: "missions"
+  name: "missions"
 }
 </script>
 
