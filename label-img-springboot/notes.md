@@ -33,3 +33,15 @@ create table `video` (
 #     FOREIGN KEY (`missionID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
+>sql for create table mission
+```sql
+drop table if exists `mission`;
+create table `mission` (
+    `id` int unsigned not null auto_increment,
+    `description` varchar(256) not null,
+    `fromID` int not null,
+    `toID` int default null,
+    `state` int not null,
+    primary key (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
