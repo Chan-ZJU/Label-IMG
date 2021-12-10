@@ -17,9 +17,14 @@
     </el-sub-menu>
     <el-menu-item index="/myPhoto">我的图库</el-menu-item>
     <el-menu-item index="/missions">任务中心</el-menu-item>
-    <el-menu-item index="/myMission">我的任务</el-menu-item>
+    <el-sub-menu index="3">
+      <template #title>我的任务</template>
+      <el-menu-item index="/myMission">我创建的任务</el-menu-item>
+      <el-menu-item index="/claimedMission">我认领的任务</el-menu-item>
+    </el-sub-menu>
     <el-menu-item index="/login" style="color: antiquewhite ;right: 5%;position: absolute">当前用户:
-      {{ this.$store.state.user.username }}</el-menu-item>
+      {{ this.$store.state.user.username }}
+    </el-menu-item>
   </el-menu>
 </template>
 

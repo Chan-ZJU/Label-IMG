@@ -9,6 +9,7 @@ import UploadVideo from "@/components/UploadVideo";
 import MyPhoto from "@/components/MyPhoto";
 import MyMission from "@/components/MyMission";
 import missions from "@/components/missions";
+import claimedMission from "@/components/claimedMission";
 
 const routes = [
     {
@@ -53,6 +54,14 @@ const routes = [
                 path: 'myMission',
                 name: 'mymission',
                 component: MyMission,
+                meta: {
+                    requireAuth: true
+                }
+            },
+            {
+                path: 'claimedMission',
+                name: 'claimedMissions',
+                component: claimedMission,
                 meta: {
                     requireAuth: true
                 }

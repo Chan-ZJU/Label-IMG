@@ -58,6 +58,8 @@ export default {
       let form = new FormData()
       form.append("missionDesc", this.missionDesc)
       form.append("choose", this.choose)
+      form.append("fromID", this.$store.state.user.userID)
+      console.log(form)
 
       axios.post("/createMission", form).then((successResponse) => {
         console.log(successResponse)
