@@ -20,10 +20,9 @@ public class Mission {
     int toID;
     /**
      * state:
-     * 0 -- just created
-     * 1 -- is claimed
-     * 2 -- is under-checking
-     * 3 -- is finished
+     * 0 -- just created (for user to claim)
+     * 1 -- is claimed (for manager to check)
+     * 2 -- is finished
      */
     int state;
 }
