@@ -10,6 +10,7 @@ import MyPhoto from "@/components/MyPhoto";
 import MyMission from "@/components/MyMission";
 import missions from "@/components/missions";
 import claimedMission from "@/components/claimedMission";
+import MissionDesc from "@/components/MissionDesc";
 
 const routes = [
     {
@@ -70,6 +71,14 @@ const routes = [
                 path: 'missions',
                 name: 'missions',
                 component: missions,
+                meta: {
+                    requireAuth: true
+                }
+            },
+            {
+                path: '/missionDesc/:ID',
+                name: 'missionDesc',
+                component: MissionDesc,
                 meta: {
                     requireAuth: true
                 }

@@ -1,7 +1,8 @@
 <template>
   <p>all missions</p>
   <div class="card" v-for="(mission) in missions" :key="mission.id">
-    <p>desc: {{ mission.description }}, state: {{ mission.state }}, fromID: {{ mission.fromID }}</p>
+    <router-link :to="{name:'missionDesc', params:{ID:mission.id}}">desc: {{ mission.description }}, state: {{ mission.state }}, fromID:
+      {{ mission.fromID }}</router-link>
   </div>
 </template>
 
@@ -15,7 +16,11 @@ export default {
       missions: [],
     }
   },
-  methods: {},
+  methods: {
+    getHref(id) {
+      return "/missionDesc-" + id
+    }
+  },
   mounted() {
     let self = this
     axios.post("missions").then((successResponse) => {
