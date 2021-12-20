@@ -64,4 +64,10 @@ public class MissionController {
     public int claimMission(@RequestBody MissionClaimer missionClaimer) {
         return missionService.claimMission(missionClaimer.getFromID(), missionClaimer.getMissionID());
     }
+
+    @CrossOrigin
+    @PostMapping("myClaimedMission")
+    public List<Mission> getMyClaimedMission(@RequestBody FromID fromID) {
+        return missionService.getMyClaimedMission(fromID.getFromID());
+    }
 }

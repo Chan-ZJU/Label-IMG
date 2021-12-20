@@ -30,7 +30,7 @@ public class MissionService {
         return missionMapper.getMyMission(fromID);
     }
 
-    public Mission getMissionByMissionID(int ID){
+    public Mission getMissionByMissionID(int ID) {
         return missionMapper.getMissionByMissionID(ID);
     }
 
@@ -44,5 +44,9 @@ public class MissionService {
 
     public int claimMission(int userID, int missionID) {
         return missionMapper.claimMission(missionID, userID);
+    }
+
+    public List<Mission> getMyClaimedMission(int toID){
+        return missionMapper.getClaimedMission(toID);
     }
 }

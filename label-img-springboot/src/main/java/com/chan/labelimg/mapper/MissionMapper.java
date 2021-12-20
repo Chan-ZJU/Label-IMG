@@ -53,4 +53,7 @@ public interface MissionMapper {
 
     @Update("update mission set toID = #{userID}, state = 1 where id = #{missionID}")
     public int claimMission(@Param("missionID") int missionID, @Param("userID") int userID);
+
+    @Select("select * from mission where toID = #{ID}")
+    public List<Mission> getClaimedMission(@Param("ID") int ID);
 }
