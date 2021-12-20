@@ -1,7 +1,7 @@
 <template>
   <p>我认领的任务</p>
   <div class="card" v-for="(mission) in missions" :key="mission.id">
-    <router-link :to="{name:'missionDesc', params:{ID:mission.id}}">desc: {{ mission.description }}, state:
+    <router-link :to="{name:'doMission', params:{ID:mission.id}}">desc: {{ mission.description }}, state:
       {{ mission.state }}, fromID:
       {{ mission.fromID }}
     </router-link>

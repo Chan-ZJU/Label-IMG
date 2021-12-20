@@ -11,6 +11,8 @@ import MyMission from "@/components/MyMission";
 import missions from "@/components/missions";
 import claimedMission from "@/components/claimedMission";
 import MissionDesc from "@/components/MissionDesc";
+import PureMissionDesc from "@/components/PureMissionDesc";
+import doMission from "@/components/doMission";
 
 const routes = [
     {
@@ -79,6 +81,22 @@ const routes = [
                 path: '/missionDesc/:ID',
                 name: 'missionDesc',
                 component: MissionDesc,
+                meta: {
+                    requireAuth: true
+                }
+            },
+            {
+                path: '/pureDesc/:ID',
+                name: 'pureDesc',
+                component: PureMissionDesc,
+                meta: {
+                    requireAuth: true
+                }
+            },
+            {
+                path: '/doMission/:ID',
+                name: 'doMission',
+                component: doMission,
                 meta: {
                     requireAuth: true
                 }

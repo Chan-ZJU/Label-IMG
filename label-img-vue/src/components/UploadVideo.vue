@@ -42,7 +42,6 @@
     </el-form>
     <div id="photos"></div>
   </el-dialog>
-  <img :src="imgSrc">
   <br>
 </template>
 
@@ -64,7 +63,6 @@ export default {
       user: {ID: this.$store.state.user.userID, type: 1},
       dialogVisible: false,
       dialogVideoUrl: '',
-      imgSrc: '',
       srcInterval: 1000,
       srcNum: 3
     }
@@ -102,12 +100,15 @@ export default {
     },
     screenShot() {
       let video = document.getElementById("video")
+      video.setAttribute('crossOrigin', 'anonymous')
       let photos = document.getElementById("photos")
       let canvas = this.createThumbnail(video, 1)
       this.listThumbnails.unshift(canvas);
       photos.innerHTML = "";
+      console.log("photos: " + photos)
       this.listThumbnails.forEach((item) => {
         if (item) {
+          item.setAttribute("style","width:100px;height:75px")
           photos.appendChild(item);
         }
       });

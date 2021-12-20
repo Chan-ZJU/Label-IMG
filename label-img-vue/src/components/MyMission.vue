@@ -1,7 +1,7 @@
 <template>
   <p>我创建的任务</p>
   <div class="card" v-for="(mission) in missions" :key="mission.id">
-    <router-link :to="{name:'missionDesc', params:{ID:mission.id}}">desc: {{ mission.description }}, state:
+    <router-link :to="{name:'pureDesc', params:{ID:mission.id}}">desc: {{ mission.description }}, state:
       {{ mission.state }}, fromID:
       {{ mission.fromID }}
     </router-link>
@@ -12,7 +12,7 @@
 import axios from "axios";
 
 export default {
-  name: "MyMission",
+  name: "MyMissions",
   data() {
     return {
       missions: [],
