@@ -1,6 +1,8 @@
 package com.chan.labelimg.mapper;
 
+import com.chan.labelimg.pojo.Img;
 import com.chan.labelimg.pojo.Mission;
+import com.chan.labelimg.pojo.MissionClaimer;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -33,6 +35,9 @@ public interface MissionMapper {
     @Update("<script> update img set missionID = #{missionID} where id in <foreach item='item' index='index' collection='chose' open='(' separator=',' close=')'> #{item} </foreach> </script>")
     public int updateImages(@Param("missionID") int missionID, @Param("chose") List<Integer> chose);
 
+    @Select("select * from mission where id = #{ID}")
+    public Mission getMissionByMissionID(@Param("ID") int missionID);
+
     /**
      * @param ID from ID
      * @return all his missions
@@ -42,4 +47,10 @@ public interface MissionMapper {
 
     @Select("select * from mission")
     public List<Mission> getAllMission();
+
+    @Select("select * from img where missionID = #{ID}")
+    public List<Img> getImgByMissionID(@Param("ID") int ID);
+
+    @Update("update mission set toID = #{userID}, state = 1 where id = #{missionID}")
+    public int claimMission(@Param("missionID") int missionID, @Param("userID") int userID);
 }

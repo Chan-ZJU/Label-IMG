@@ -2,6 +2,7 @@ package com.chan.labelimg.service;
 
 import com.chan.labelimg.mapper.MissionMapper;
 import com.chan.labelimg.mapper.UploadMapper;
+import com.chan.labelimg.pojo.Img;
 import com.chan.labelimg.pojo.Mission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,19 @@ public class MissionService {
         return missionMapper.getMyMission(fromID);
     }
 
-    public List<Mission> getAllMissions(){
+    public Mission getMissionByMissionID(int ID){
+        return missionMapper.getMissionByMissionID(ID);
+    }
+
+    public List<Mission> getAllMissions() {
         return missionMapper.getAllMission();
+    }
+
+    public List<Img> getImgByMissionID(int ID) {
+        return missionMapper.getImgByMissionID(ID);
+    }
+
+    public int claimMission(int userID, int missionID) {
+        return missionMapper.claimMission(missionID, userID);
     }
 }

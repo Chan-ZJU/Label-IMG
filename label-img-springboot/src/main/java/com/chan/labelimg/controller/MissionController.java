@@ -1,7 +1,6 @@
 package com.chan.labelimg.controller;
 
-import com.chan.labelimg.pojo.Mission;
-import com.chan.labelimg.pojo.Result;
+import com.chan.labelimg.pojo.*;
 import com.chan.labelimg.service.MissionService;
 import io.swagger.annotations.Api;
 import org.apache.ibatis.annotations.Param;
@@ -43,8 +42,26 @@ public class MissionController {
     }
 
     @CrossOrigin
+    @PostMapping("getSingleMission")
+    public Mission getMissionByMissionID(@RequestBody FromID fromID) {
+        return missionService.getMissionByMissionID(fromID.getFromID());
+    }
+
+    @CrossOrigin
     @PostMapping("missions")
     public List<Mission> getAllMissions() {
         return missionService.getAllMissions();
+    }
+
+    @CrossOrigin
+    @PostMapping("missionDesc")
+    public List<Img> getImgByMissionID(@RequestBody FromID ID) {
+        return missionService.getImgByMissionID(ID.getFromID());
+    }
+
+    @CrossOrigin
+    @PostMapping("claimMission")
+    public int claimMission(@RequestBody MissionClaimer missionClaimer) {
+        return missionService.claimMission(missionClaimer.getFromID(), missionClaimer.getMissionID());
     }
 }
