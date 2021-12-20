@@ -3,7 +3,7 @@
   <div class="card" v-for="(image) in missionImages" :key="image.id">
     <el-image :src="image.url"></el-image>
   </div>
-  <el-button @click="claimMission">认领任务</el-button>
+  <el-button @click="claimMission" :disabled="canClaim">认领任务</el-button>
 </template>
 
 <script>
@@ -15,7 +15,7 @@ export default {
     return {
       missionImages: [],
       missionState: '',
-      canClaim: true,
+      canClaim: false,
     }
   },
   methods: {
@@ -40,6 +40,9 @@ export default {
     axios.post("getSingleMission", {fromID: this.$route.params.ID}).then((success) => {
       this.missionState = success.data
       console.log(this.missionState)
+      if (this.missionState.state === 1) {
+        this.canClaim = true;
+      }
     }).catch((error) => {
       console.log(error)
     })

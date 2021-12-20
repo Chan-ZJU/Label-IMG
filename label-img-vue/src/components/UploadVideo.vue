@@ -103,10 +103,7 @@ export default {
     screenShot() {
       let video = document.getElementById("video")
       let photos = document.getElementById("photos")
-      let canvas = this.createThumbnail(video, 0.25)
-      canvas.onclick = function () {
-        window.open(this.toDataURL());
-      };
+      let canvas = this.createThumbnail(video, 1)
       this.listThumbnails.unshift(canvas);
       photos.innerHTML = "";
       this.listThumbnails.forEach((item) => {
