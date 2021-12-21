@@ -3,7 +3,7 @@
   <div class="card" v-for="(mission) in missions" :key="mission.id">
     <router-link :to="{name:'doMission', params:{ID:mission.id}}">desc: {{ mission.description }}, state:
       {{ mission.state }}, fromID:
-      {{ mission.fromID }}
+      {{ mission.fromID }}, missionID: {{ mission.id }}, toID: {{ mission.toID }}
     </router-link>
   </div>
 </template>
