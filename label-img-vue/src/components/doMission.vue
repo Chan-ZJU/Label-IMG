@@ -4,8 +4,14 @@
     <el-image :src="image.url" :id="image.id" alt="labelIMG" ref="image"></el-image>
     {{ index }}
     <el-button @click="dialogVisible[index] = true">开始标注</el-button>
-    <el-dialog v-model="dialogVisible[index]" fullscreen @opened="init(image.id)">
-      <canvas :id="'canvas'+image.id"/>
+    <el-dialog v-model="dialogVisible[index]" fullscreen @opened="init(image.id, index)" @closed="type=null">
+      <h2>标注界面</h2>
+      <canvas :id="'canvas'+image.id" @click="handleClick(index, $event)" @mousedown="handleMouseDown(index, $event)"
+              @mousemove="handleMouseMove(index, $event)"
+              @mouseup="handleMouseUp(index, $event)"/>
+      <br>
+      <el-button @click="draw('square')">矩形标注</el-button>
+      <el-button @click="draw('dot')">打点标注</el-button>
     </el-dialog>
   </div>
 </template>
@@ -22,21 +28,64 @@ export default {
       missionState: '',
       //data for labeling
       dialogVisible: [],
-      image: null,
-      ctx: null,
+      image: [],
+      ctx: [],
+      naturalHeight: [],
+      naturalWidth: [],
+      width: [],
+      height: [],
+      imageData: [],
+      type: null,
+      startPoint: [],
     }
   },
   methods: {
-    init(id) {
-      console.log("id" + id)
-      console.log(this.dialogVisible)
-      let canvas = document.getElementById('canvas'+id)
-      console.log(canvas)
-      this.image = document.getElementById(id.toString())
+    init(id, index) {
+      let canvas = document.getElementById('canvas' + id)
+      this.image[index] = document.getElementById(id.toString())
+      this.image[index].crossOrigin = '';
+      console.log("this.image")
       console.log(this.image)
-      this.ctx = canvas.getContext('2d')
-      console.log(this.ctx)
-      this.ctx.drawImage(this.image, 0, 0, 100, 75)
+      canvas.width = this.image[index].width
+      canvas.height = this.image[index].height
+      this.width[index] = this.image[index].width
+      this.height[index] = this.image[index].height
+      this.naturalHeight[index] = this.image[index].naturalHeight
+      this.naturalWidth[index] = this.image[index].naturalWidth
+      console.log(this.height[index] + " " + this.width[index])
+      console.log(this.naturalHeight[index] + " " + this.naturalWidth[index])
+      this.ctx[index] = canvas.getContext('2d')
+      this.ctx[index].drawImage(this.image[index], 0, 0, this.width[index], this.height[index])
+      this.ctx[index].getImageData(0, 0, this.width[index], this.height[index])
+    },
+    draw(type) {
+      this.type = type
+      this.ctx.lineWidth = 1
+    },
+    handleMouseDown(index, e) {
+      console.log("index: " + index)
+      console.log(e)
+      if (this.type === 'square') {
+        this.startPoint[index] = {
+          x: e.offsetX,
+          y: e.offsetY
+        }
+      }
+      console.log(this.startPoint[index])
+    },
+    handleMouseMove(index, e) {
+      console.log("index: " + index)
+      console.log(e)
+      if (!this.startPoint[index]) {
+        console.log("no startPoint " + index)
+      }
+    },
+    handleMouseUp(index, e) {
+      console.log("index: " + index)
+      console.log(e)
+    },
+    handleClick(e) {
+      console.log(e)
     },
   },
   mounted() {

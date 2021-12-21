@@ -4,7 +4,7 @@
     <el-button @click="(drawer = true);getCheckedBox()">创建任务</el-button>
     <el-drawer v-model="drawer" title="创建任务" :before-close="handleClose">
       <el-input v-model="missionDesc" placeholder="请输入标注内容"></el-input>
-      <el-button @click="createMission" :disabled="cannotCreate">创建</el-button>
+      <el-button @click="createMission();drawer=false" :disabled="cannotCreate">创建</el-button>
     </el-drawer>
     <div class="card" v-for="(message) in images" :key="message.id">
       <label v-bind:for="message.id.toString()">
