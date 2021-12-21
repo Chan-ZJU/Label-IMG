@@ -1,7 +1,8 @@
 <template>
   <p>mission ID: {{ this.$route.params.ID }}</p>
   <div class="card" v-for="(image, index) in missionImages" :key="image.id">
-    <el-image :src="image.url" :id="image.id" alt="labelIMG" ref="image"></el-image>
+    <el-image :src="image.url+'?'+new Date().getTime()" :id="image.id" alt="labelIMG" ref="image"
+              crossOrigin=""></el-image>
     {{ index }}
     <el-button @click="dialogVisible[index] = true">开始标注</el-button>
     <el-dialog v-model="dialogVisible[index]" fullscreen @opened="init(image.id, index)" @closed="type=null">
@@ -37,13 +38,13 @@ export default {
       imageData: [],
       type: null,
       startPoint: [],
+      labelPoint: [],
     }
   },
   methods: {
     init(id, index) {
       let canvas = document.getElementById('canvas' + id)
       this.image[index] = document.getElementById(id.toString())
-      this.image[index].crossOrigin = '';
       console.log("this.image")
       console.log(this.image)
       canvas.width = this.image[index].width
@@ -56,33 +57,57 @@ export default {
       console.log(this.naturalHeight[index] + " " + this.naturalWidth[index])
       this.ctx[index] = canvas.getContext('2d')
       this.ctx[index].drawImage(this.image[index], 0, 0, this.width[index], this.height[index])
-      this.ctx[index].getImageData(0, 0, this.width[index], this.height[index])
     },
     draw(type) {
       this.type = type
       this.ctx.lineWidth = 1
     },
     handleMouseDown(index, e) {
-      console.log("index: " + index)
-      console.log(e)
       if (this.type === 'square') {
         this.startPoint[index] = {
           x: e.offsetX,
           y: e.offsetY
         }
       }
-      console.log(this.startPoint[index])
+      this.imageData[index] = this.ctx[index].getImageData(0, 0, this.width[index], this.height[index])
     },
     handleMouseMove(index, e) {
-      console.log("index: " + index)
-      console.log(e)
       if (!this.startPoint[index]) {
-        console.log("no startPoint " + index)
+        return
       }
+      this.ctx[index].beginPath()
+      this.ctx[index].fillStyle = 'rgba(255,0,0,0.1)'
+      this.ctx[index].strokeStyle = '#FF0000'
+      this.ctx[index].strokeRect(this.startPoint[index].x, this.startPoint[index].y, e.offsetX - this.startPoint[index].x, e.offsetY - this.startPoint[index].y)
     },
     handleMouseUp(index, e) {
       console.log("index: " + index)
       console.log(e)
+      if (!this.startPoint[index]) {
+        console.log("error: no start point " + index)
+      }
+      if (this.type === 'square') {
+        let point = []
+        point.push({
+          'point': [
+            {
+              x: this.startPoint[index].x,
+              y: this.startPoint[index].y
+            }, {
+              x: e.offsetX,
+              y: this.startPoint[index].y
+            }, {
+              x: e.offsetX,
+              y: e.offsetY
+            }, {
+              x: this.startPoint[index].x,
+              y: e.offsetY
+            }
+          ]
+        })
+        this.labelPoint[index] = point
+        this.startPoint[index] = null
+      }
     },
     handleClick(e) {
       console.log(e)
