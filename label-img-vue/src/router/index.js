@@ -12,7 +12,7 @@ import missions from "@/components/missions";
 import claimedMission from "@/components/claimedMission";
 import MissionDesc from "@/components/MissionDesc";
 import PureMissionDesc from "@/components/PureMissionDesc";
-import doMission from "@/components/doMission";
+import doMissionWithPureCanvas from "@/components/doMissionWithPureCanvas";
 
 const routes = [
     {
@@ -96,7 +96,7 @@ const routes = [
             {
                 path: '/doMission/:ID',
                 name: 'doMission',
-                component: doMission,
+                component: doMissionWithPureCanvas,
                 meta: {
                     requireAuth: true
                 }

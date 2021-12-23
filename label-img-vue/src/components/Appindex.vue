@@ -1,17 +1,8 @@
 <template>
-  <div>
-    <br>
-    userID: {{ this.$store.state.user.userID }}
-    <br>
-  </div>
+  123
 </template>
-
 <script>
 export default {
-  name: "Appindex",
+  name: "Appindex"
 }
 </script>
-
-<style scoped>
-
-</style>
