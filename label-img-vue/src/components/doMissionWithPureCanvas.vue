@@ -1,4 +1,5 @@
 <template>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
   <p>mission ID: {{ this.$route.params.ID }}</p>
   <div class="card" v-for="(image, index) in missionImages" :key="image.id">
     <el-image :src="image.url+'?'+new Date().getTime()" :id="image.id" alt="labelIMG" ref="image"
@@ -37,6 +38,7 @@ export default {
       height: '',
       imageData: '',
       startPoint: '',
+      pointNum: '',
       labelPoint: [],
       rects: [],
       clickOnPoint: false,
@@ -57,8 +59,12 @@ export default {
       this.ctx = canvas.getContext('2d')
       this.ctx.drawImage(this.image, 0, 0, this.width, this.height)
       this.alreadyInit = true
+      canvas.addEventListener("touchstart", this.handleTouchDown)
+      canvas.addEventListener("touchmove", this.handleTouchMove)
+      canvas.addEventListener("touchend", this.handleTouchUp)
     },
     draw() {
+      console.log("draw")
       this.ctx.clearRect(0, 0, this.image.width, this.image.height)
       this.ctx.drawImage(this.image, 0, 0, this.width, this.height)
       if (this.rects !== undefined) {
@@ -68,20 +74,39 @@ export default {
       }
     },
     onPoint(x, y) {
-      console.log("onPoint")
-      let i = 0
-      for (let point in this.rects) {
-        if (x - point['x'] <= 2 && x - point['x'] >= -2 && y - point['y'] >= -2 && y - point['y'] <= 2)
-          return i
-        i++;
+      if (this.rects !== undefined) {
+        let round = 5
+        for (let i = 0; i < this.rects.length; i++) {
+          // console.log(point)
+          let point = this.rects[i]
+          if (x - point['x'] <= round && x - point['x'] >= -round && y - point['y'] >= -round && y - point['y'] <= round) {
+            return i
+          }
+          i++;
+        }
       }
       return -1
     },
     handleMouseDown(e) {
       //点在点上，要进行拖拽
-      let pointNum = 0
+      this.pointNum = this.onPoint(e.offsetX, e.offsetY)
       this.clickOnPoint = false
-      if (this.onPoint(e.offsetX, e.offsetY) !== -1) {
+      if (this.pointNum !== -1) {
+        this.clickOnPoint = true
+        // this.startPoint[index] = null
+      } else {
+        this.startPoint = {
+          x: e.offsetX,
+          y: e.offsetY
+        }
+        this.imageData = this.ctx.getImageData(0, 0, this.width, this.height)
+      }
+    },
+    handleTouchDown(e) {
+      //点在点上，要进行拖拽
+      this.pointNum = this.onPoint(e.offsetX, e.offsetY)
+      this.clickOnPoint = false
+      if (this.pointNum !== -1) {
         this.clickOnPoint = true
         // this.startPoint[index] = null
       } else {
@@ -93,10 +118,19 @@ export default {
       }
     },
     handleMouseMove(e) {
-      if (!this.startPoint && this.clickOnPoint) {
+      if (!this.startPoint || this.clickOnPoint) {
         return
       }
-      console.log(123)
+      this.ctx.putImageData(this.imageData, 0, 0)
+      this.ctx.beginPath()
+      this.ctx.fillStyle = 'rgba(255,0,0,0.1)'
+      this.ctx.strokeStyle = '#FF0000'
+      this.ctx.strokeRect(this.startPoint.x, this.startPoint.y, e.offsetX - this.startPoint.x, e.offsetY - this.startPoint.y)
+    },
+    handleTouchMove(e) {
+      if (!this.startPoint || this.clickOnPoint) {
+        return
+      }
       this.ctx.putImageData(this.imageData, 0, 0)
       this.ctx.beginPath()
       this.ctx.fillStyle = 'rgba(255,0,0,0.1)'
@@ -104,36 +138,97 @@ export default {
       this.ctx.strokeRect(this.startPoint.x, this.startPoint.y, e.offsetX - this.startPoint.x, e.offsetY - this.startPoint.y)
     },
     handleMouseUp(e) {
+      console.log(e)
       if (!this.startPoint) {
         console.log("error: no start point ")
       }
-      let point = [
-        {
-          x: this.startPoint.x,
-          y: this.startPoint.y
-        }, {
-          x: e.offsetX,
-          y: this.startPoint.y
-        }, {
-          x: e.offsetX,
-          y: e.offsetY
-        }, {
-          x: this.startPoint.x,
-          y: e.offsetY
+      if (!this.clickOnPoint) {
+        let point = [
+          {
+            x: this.startPoint.x,
+            y: this.startPoint.y
+          }, {
+            x: e.offsetX,
+            y: this.startPoint.y
+          }, {
+            x: e.offsetX,
+            y: e.offsetY
+          }, {
+            x: this.startPoint.x,
+            y: e.offsetY
+          }
+        ]
+        if (this.labelPoint !== undefined) {
+          this.labelPoint.push(point[0])
+        } else {
+          this.labelPoint = point
         }
-      ]
-      if (this.labelPoint !== undefined) {
-        this.labelPoint.push(point[0])
+        for (let i = 0; i < 4; i++) {
+          this.rects.push(point[i])
+        }
+        console.log(this.rects)
+        this.startPoint = null
       } else {
-        this.labelPoint = point
+        //点到了点上，开始拖拽
+        let num = this.pointNum % 4
+        this.rects[this.pointNum]['x'] = e.offsetX
+        this.rects[this.pointNum]['y'] = e.offsetY
+        if (num === 0 || num === 2) {
+          this.rects[this.pointNum - 1 > 0 ? this.pointNum - 1 : this.pointNum + 3]['x'] = e.offsetX
+          this.rects[this.pointNum + 1]['y'] = e.offsetY
+        } else {
+          this.rects[this.pointNum + 1 > 3 ? this.pointNum - 3 : this.pointNum + 1]['x'] = e.offsetX
+          this.rects[this.pointNum - 1]['y'] = e.offsetY
+        }
       }
-      for (let i = 0; i < 4; i++) {
-        this.rects.push(point[i])
-      }
-      console.log(this.rects)
-      this.startPoint = null
       this.draw()
     },
+    handleTouchUp(e) {
+      console.log(e)
+      if (!this.startPoint) {
+        console.log("error: no start point ")
+      }
+      if (!this.clickOnPoint) {
+        let point = [
+          {
+            x: this.startPoint.x,
+            y: this.startPoint.y
+          }, {
+            x: e.offsetX,
+            y: this.startPoint.y
+          }, {
+            x: e.offsetX,
+            y: e.offsetY
+          }, {
+            x: this.startPoint.x,
+            y: e.offsetY
+          }
+        ]
+        if (this.labelPoint !== undefined) {
+          this.labelPoint.push(point[0])
+        } else {
+          this.labelPoint = point
+        }
+        for (let i = 0; i < 4; i++) {
+          this.rects.push(point[i])
+        }
+        console.log(this.rects)
+        this.startPoint = null
+      } else {
+        //点到了点上，开始拖拽
+        let num = this.pointNum % 4
+        this.rects[this.pointNum]['x'] = e.offsetX
+        this.rects[this.pointNum]['y'] = e.offsetY
+        if (num === 0 || num === 2) {
+          this.rects[this.pointNum - 1 > 0 ? this.pointNum - 1 : this.pointNum + 3]['x'] = e.offsetX
+          this.rects[this.pointNum + 1]['y'] = e.offsetY
+        } else {
+          this.rects[this.pointNum + 1 > 3 ? this.pointNum - 3 : this.pointNum + 1]['x'] = e.offsetX
+          this.rects[this.pointNum - 1]['y'] = e.offsetY
+        }
+      }
+      this.draw()
+    }
   },
   mounted() {
     axios.post("missionDesc/", {fromID: this.$route.params.ID}).then((success) => {
