@@ -18,7 +18,7 @@ public interface MissionMapper {
      * @param fromID      from ID
      * @return int code
      */
-    @Insert("insert into mission(description, fromID, state) values (#{description}, #{fromID}, 0)")
+    @Insert("insert into mission(description, fromID, state, toID) values (#{description}, #{fromID}, 0, -1)")
     public int insertMission(@Param("description") String description, @Param("fromID") int fromID);
 
     /**
