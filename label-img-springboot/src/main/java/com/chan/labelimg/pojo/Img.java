@@ -18,6 +18,4 @@ public class Img {
     int id;
     int fromID;
     String url;
-    int missionID;
-    int kind;
 }

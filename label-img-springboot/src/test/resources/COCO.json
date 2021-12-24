@@ -1,0 +1,114 @@
+{
+  "info": {
+    "year": 2021,
+    "version": "1.0",
+    "contributor": "user 5",
+    "date_created": "2021-12-24-20:39:24"
+  },
+  "license": {
+    "name": "Label IMG License 1.0"
+  },
+  "images": [
+    {
+      "image": {
+        "id": 2,
+        "width": 1920,
+        "height": 1080,
+        "url": "http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/24/fe524418-61ab-4911-a08d-64ac46b64341.png"
+      }
+    },
+    {
+      "image": {
+        "id": 3,
+        "width": 246,
+        "height": 205,
+        "url": "http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/24/4ef38585-b736-4460-ae5f-f1a85f441f30.png"
+      }
+    }
+  ],
+  "annotations": [
+    {
+      "id": "223251d2-7860-4eb9-b1bf-909b9042ea38",
+      "image_id": 2,
+      "category_id": "53de7a22-0226-4707-be7b-e655484c3a6d",
+      "bbox": [
+        {
+          "x": 519.15,
+          "y": 209.03
+        },
+        {
+          "x": 652.57,
+          "y": 209.03
+        },
+        {
+          "x": 652.57,
+          "y": 304.84
+        },
+        {
+          "x": 519.15,
+          "y": 304.84
+        }
+      ]
+    },
+    {
+      "id": "e286d6a8-5c49-4242-b32e-e9ffa0e895e2",
+      "image_id": 2,
+      "category_id": "01bd87aa-84dd-4bf3-b494-8eed41677597",
+      "bbox": [
+        {
+          "x": 1006.4,
+          "y": 264.19
+        },
+        {
+          "x": 1363.14,
+          "y": 264.19
+        },
+        {
+          "x": 1363.14,
+          "y": 441.29
+        },
+        {
+          "x": 1006.4,
+          "y": 441.29
+        }
+      ]
+    },
+    {
+      "id": "d1cec87b-9d25-454e-9253-aeb0afd49939",
+      "image_id": 3,
+      "category_id": "01bd87aa-84dd-4bf3-b494-8eed41677597",
+      "bbox": [
+        {
+          "x": 101.0,
+          "y": 99.0
+        },
+        {
+          "x": 206.0,
+          "y": 99.0
+        },
+        {
+          "x": 206.0,
+          "y": 172.0
+        },
+        {
+          "x": 101.0,
+          "y": 172.0
+        }
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "category": {
+        "id": "53de7a22-0226-4707-be7b-e655484c3a6d",
+        "name": "房子"
+      }
+    },
+    {
+      "category": {
+        "id": "01bd87aa-84dd-4bf3-b494-8eed41677597",
+        "name": "云"
+      }
+    }
+  ]
+}

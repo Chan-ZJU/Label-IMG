@@ -22,7 +22,9 @@ public class MissionService {
     public int createMission(String desc, int fromID, List<Integer> selectedImages) {
         missionMapper.insertMission(desc, fromID);
         int missionID = missionMapper.getMissionID();
-        missionMapper.updateImages(missionID, selectedImages);
+        for (int imageID : selectedImages) {
+            missionMapper.updateImages(missionID, imageID);
+        }
         return missionID;
     }
 
@@ -38,7 +40,8 @@ public class MissionService {
         return missionMapper.getAllMission();
     }
 
-    public List<Img> getImgByMissionID(int ID) {
+    public List<Img> getImgByMissionID(int id) {
+        List<Integer> ID = missionMapper.getImgIDByMissionID(id);
         return missionMapper.getImgByMissionID(ID);
     }
 
@@ -46,7 +49,11 @@ public class MissionService {
         return missionMapper.claimMission(missionID, userID);
     }
 
-    public List<Mission> getMyClaimedMission(int toID){
+    public List<Mission> getMyClaimedMission(int toID) {
         return missionMapper.getClaimedMission(toID);
+    }
+
+    public int submitMission(int ID) {
+        return missionMapper.submitMission(ID);
     }
 }

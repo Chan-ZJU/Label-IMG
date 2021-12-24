@@ -19,14 +19,14 @@ public interface UploadMapper {
      * @param url    the url of the img
      * @return int code
      */
-    @Insert("insert into img (url, fromID, kind) values (#{url}, #{fromID}, 0)")
+    @Insert("insert into img (url, fromID) values (#{url}, #{fromID})")
     int uploadImg(@Param("fromID") int fromID, @Param("url") String url);
 
     /**
      * @param fromID fromID
      * @return all his images
      */
-    @Select("select * from img where fromID = #{fromID} and kind = 0")
+    @Select("select * from img where fromID = #{fromID}")
     List<Img> getImg(@Param("fromID") int fromID);
 
     /**

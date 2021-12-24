@@ -21,8 +21,9 @@ public class Mission {
     /**
      * state:
      * 0 -- just created (for user to claim)
-     * 1 -- is claimed (for manager to check)
-     * 2 -- is finished
+     * 1 -- is claimed (not finish)
+     * 2 -- is finished (for manager to check)
+     * 3 -- done
      */
     int state;
 }

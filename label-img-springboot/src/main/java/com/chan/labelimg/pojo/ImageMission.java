@@ -4,21 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 /**
  * @author: chen zheng
- * @Date: 12/23/2021 9:37 PM
+ * @Date: 12/24/2021 5:03 PM
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ImageLabel {
-    int missionID;
+public class ImageMission {
     int imageID;
-    List<Point> points;
-    List<String> remark;
-    int userID;
-    Point naturalSize;
-    Ratio ratio;
+    int missionID;
+    String pointsX;
+    String pointsY;
+    String remarks;
+    int sizeX;
+    int sizeY;
 }

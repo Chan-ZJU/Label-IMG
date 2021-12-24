@@ -32,8 +32,9 @@ public interface MissionMapper {
      * @param chose     choose images' IDs
      * @return int code
      */
-    @Update("<script> update img set missionID = #{missionID} where id in <foreach item='item' index='index' collection='chose' open='(' separator=',' close=')'> #{item} </foreach> </script>")
-    public int updateImages(@Param("missionID") int missionID, @Param("chose") List<Integer> chose);
+//    @Update("<script> update img set missionID = #{missionID} where id in <foreach item='item' index='index' collection='chose' open='(' separator=',' close=')'> #{item} </foreach> </script>")
+    @Insert("insert into image_mission (imageID, missionID) VALUES (#{imageID}, #{missionID})")
+    public int updateImages(@Param("missionID") int missionID, @Param("imageID") int imageID);
 
     @Select("select * from mission where id = #{ID}")
     public Mission getMissionByMissionID(@Param("ID") int missionID);
@@ -48,12 +49,18 @@ public interface MissionMapper {
     @Select("select * from mission")
     public List<Mission> getAllMission();
 
-    @Select("select * from img where missionID = #{ID}")
-    public List<Img> getImgByMissionID(@Param("ID") int ID);
+    @Select("select imageID from image_mission where missionID = #{ID}")
+    public List<Integer> getImgIDByMissionID(@Param("ID") int ID);
+
+    @Select("<script> select * from img where id in <foreach item='item' index='index' collection='ID' open='(' separator=',' close=')'> #{item} </foreach> </script>")
+    public List<Img> getImgByMissionID(@Param("ID") List<Integer> ID);
 
     @Update("update mission set toID = #{userID}, state = 1 where id = #{missionID}")
     public int claimMission(@Param("missionID") int missionID, @Param("userID") int userID);
 
     @Select("select * from mission where toID = #{ID}")
     public List<Mission> getClaimedMission(@Param("ID") int ID);
+
+    @Update("update mission set state = 2 where id = #{ID}")
+    public int submitMission(@Param("ID") int ID);
 }

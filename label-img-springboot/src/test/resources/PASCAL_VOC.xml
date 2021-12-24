@@ -1,0 +1,42 @@
+<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<annotation>
+    <imageURL>http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/24/fe524418-61ab-4911-a08d-64ac46b64341.png
+    </imageURL>
+    <size>
+        <width>1920</width>
+        <height>1080</height>
+    </size>
+    <object>
+        <name>123</name>
+        <bndbox>
+            <xmin>554.46</xmin>
+            <xmax>884.39</xmax>
+            <ymin>434.75</ymin>
+            <ymax>201.36</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>123</name>
+        <bndbox>
+            <xmin>1195.99</xmin>
+            <xmax>1498.42</xmax>
+            <ymin>672.71</ymin>
+            <ymax>283.73</ymax>
+        </bndbox>
+    </object>
+    <imageURL>http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/24/4ef38585-b736-4460-ae5f-f1a85f441f30.png
+    </imageURL>
+    <size>
+        <width>246</width>
+        <height>205</height>
+    </size>
+    <object>
+        <name>3</name>
+        <bndbox>
+            <xmin>89.00</xmin>
+            <xmax>146.00</xmax>
+            <ymin>88.00</ymin>
+            <ymax>48.00</ymax>
+        </bndbox>
+    </object>
+</annotation>
