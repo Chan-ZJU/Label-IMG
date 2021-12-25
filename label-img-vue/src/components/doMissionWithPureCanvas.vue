@@ -13,12 +13,20 @@
       <br>
       <div class="input" v-for="(txt,index) in counter" :key="index">
         {{ index }}
-        <input :id="txt" type="text" v-model="remarks[index]" placeholder="标注备注">
+        <el-input :id="txt" type="text" v-model="remarks[index]" placeholder="标注备注"/>
       </div>
       <br>
       <el-button @click="submitLabel(image.id)">提交标注</el-button>
     </el-dialog>
   </div>
+  <el-divider></el-divider>
+  <el-button @click="submitMission(this.$route.params.ID)">提交任务</el-button>
+  <br>
+  <el-button @click="getPASCAL_VOC(this.$route.params.ID)">导出PASCAL VOC</el-button>
+  <br>
+  <el-button @click="getCOCO(this.$route.params.ID)">导出COCO</el-button>
+  <div style="white-space: pre-line;">{{ this.VOC }}</div>
+  <div style="white-space: pre-line;">{{ this.COCO }}</div>
 </template>
 
 <script>
@@ -50,12 +58,17 @@ export default {
       clickOnPoint: false,
       counter: [],
       remarks: [],
+      //result set
+      VOC: '',
+      COCO: '',
     }
   },
   methods: {
     init(id) {
       this.rects = []
       this.labelPoint = []
+      this.counter = []
+      this.remarks = []
       let canvas = document.getElementById('canvas' + id)
       this.image = document.getElementById(id.toString())
       canvas.width = this.image.width
@@ -250,12 +263,48 @@ export default {
       this.draw(3)
     },
     submitLabel(id) {
+      console.log("natural: " + this.naturalWidth + " " + this.naturalHeight)
+      console.log(this.width + " " + this.height)
       axios.post("submitLabel/", {
+        missionID: this.$route.params.ID,
         points: this.rects,
         imageID: id,
         userID: this.$store.state.user.userID,
-        remark: this.remarks
+        remark: this.remarks,
+        naturalSize: {x: this.naturalWidth, y: this.naturalHeight},
+        ratio: {x: this.naturalWidth / this.width, y: this.naturalHeight / this.height}
       }).then((success) => {
+        console.log(success)
+      }).catch((e) => {
+        console.log(e)
+      })
+    },
+    submitMission(missionID) {
+      axios.post("submitMission/", {
+        fromID: missionID
+      }).then((success) => {
+        console.log(success)
+      }).catch((e) => {
+        console.log(e)
+      })
+    },
+    getPASCAL_VOC(missionID) {
+      axios.post("getPASCALVOC", {
+        fromID: missionID
+      }).then((success) => {
+        console.log(success)
+        this.COCO = null
+        this.VOC = success.data
+      }).catch((e) => {
+        console.log(e)
+      })
+    },
+    getCOCO(missionID) {
+      axios.post("getCOCO", {
+        fromID: missionID
+      }).then((success) => {
+        this.VOC = null
+        this.COCO = success.data
         console.log(success)
       }).catch((e) => {
         console.log(e)
