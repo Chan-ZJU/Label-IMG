@@ -39,10 +39,8 @@ export default {
       //data for mission display
       missionImages: [],
       missionState: '',
-      isShowTips: [],
       //data for labeling
       selectID: null,
-      alreadyInit: [],
       dialogVisible: [],
       image: '',
       ctx: '',
@@ -79,7 +77,6 @@ export default {
       this.naturalWidth = this.image.naturalWidth
       this.ctx = canvas.getContext('2d')
       this.ctx.drawImage(this.image, 0, 0, this.width, this.height)
-      this.alreadyInit = true
       canvas.addEventListener("touchstart", this.handleTouchDown)
       canvas.addEventListener("touchmove", this.handleTouchMove)
       canvas.addEventListener("touchend", this.handleTouchUp)
@@ -317,8 +314,6 @@ export default {
       for (let i = 0; i < this.missionImages.length; i++
       ) {
         this.dialogVisible.push(false)
-        this.alreadyInit.push(false)
-        this.isShowTips.push(false)
       }
     }).catch((error) => {
       console.log(error)

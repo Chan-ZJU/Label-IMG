@@ -13,6 +13,8 @@ import claimedMission from "@/components/claimedMission";
 import MissionDesc from "@/components/MissionDesc";
 import PureMissionDesc from "@/components/PureMissionDesc";
 import doMissionWithPureCanvas from "@/components/doMissionWithPureCanvas";
+import ManagerIndex from "@/components/ManagerIndex";
+import checkMission from "@/components/checkMission";
 
 const routes = [
     {
@@ -113,6 +115,16 @@ const routes = [
         name: 'Signup',
         component: Signup
     },
+    {
+        path: '/managerIndex',
+        name: 'managerIndex',
+        component: ManagerIndex
+    },
+    {
+        path: '/checkMission/:ID',
+        name: 'checkMission',
+        component: checkMission
+    }
 ]
 
 const router = createRouter({

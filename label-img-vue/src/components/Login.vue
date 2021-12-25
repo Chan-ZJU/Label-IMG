@@ -4,9 +4,12 @@
     <br>
     密码:<input type="password" v-model="loginForm.password" placeholder="请输入密码">
     <br>
-    <button v-on:click="login">登录</button>
+    <button v-on:click="login">用户登录</button>
     <br>
-    <router-link to="/signup">注册</router-link>
+    <button v-on:click="managerLogin">管理员登陆</button>
+    <br>
+    <router-link to="/signup">用户注册</router-link>
+    <br>
   </el-card>
 </template>
 
@@ -46,6 +49,18 @@ export default {
           // eslint-disable-next-line no-unused-vars
           .catch(failResponse => {
           })
+    },
+    managerLogin() {
+      axios.post("managerLogin", {
+        username: this.loginForm.username,
+        password: this.loginForm.password
+      }).then((success) => {
+        if (success.data === 200) {
+          this.$router.replace('/managerIndex')
+        }
+      }).catch((e) => {
+        console.log(e)
+      })
     }
   }
 }
