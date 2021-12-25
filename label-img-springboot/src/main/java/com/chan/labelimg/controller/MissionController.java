@@ -92,4 +92,10 @@ public class MissionController {
         int missionID = fromID.getFromID();
         return missionService.finishMission(missionID);
     }
+
+    @CrossOrigin
+    @PostMapping("getCount")
+    public List<Integer> getCount() {
+        return missionService.getCount();
+    }
 }

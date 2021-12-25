@@ -4,9 +4,11 @@ import com.chan.labelimg.mapper.MissionMapper;
 import com.chan.labelimg.pojo.ImageMission;
 import com.chan.labelimg.pojo.Img;
 import com.chan.labelimg.pojo.Mission;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,7 +66,16 @@ public class MissionService {
         return missionMapper.getSingleImg(imgID, missionID);
     }
 
-    public int finishMission(int missionID){
+    public int finishMission(int missionID) {
         return missionMapper.finishMission(missionID);
+    }
+
+    public List<Integer> getCount() {
+        List<Integer> countList = new ArrayList<>();
+        countList.add(missionMapper.getAllMissionCount());
+        countList.add(missionMapper.getNewMissionCount());
+        countList.add(missionMapper.getClaimedMissionCount());
+        countList.add(missionMapper.getFinishedMissionCount());
+        return countList;
     }
 }

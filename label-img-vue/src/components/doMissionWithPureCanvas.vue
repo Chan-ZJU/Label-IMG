@@ -84,21 +84,23 @@ export default {
       this.counter = []
       this.remarks = []
       //get previous label points
-      let pointsX = this.singleImage.pointsX.split(",")
-      let pointsY = this.singleImage.pointsY.split(",")
-      for (let i = 0; i < pointsX.length - 1; i++) {
-        let Point = {
-          x: Math.ceil((parseInt(pointsX[i]) / this.naturalWidth) * this.width),
-          y: Math.ceil((parseInt(pointsY[i]) / this.naturalHeight) * this.height)
+      if (this.singleImage.pointsX !== null) {
+        let pointsX = this.singleImage.pointsX.split(",")
+        let pointsY = this.singleImage.pointsY.split(",")
+        for (let i = 0; i < pointsX.length - 1; i++) {
+          let Point = {
+            x: Math.ceil((parseInt(pointsX[i]) / this.naturalWidth) * this.width),
+            y: Math.ceil((parseInt(pointsY[i]) / this.naturalHeight) * this.height)
+          }
+          this.rects.push(Point)
         }
-        this.rects.push(Point)
+        let remarkArray = this.singleImage.remarks.split(",")
+        for (let i = 0; i < remarkArray.length - 1; i++) {
+          this.remarks.push(remarkArray[i])
+          this.counter.push(i)
+        }
+        this.draw(3)
       }
-      let remarkArray = this.singleImage.remarks.split(",")
-      for (let i = 0; i < remarkArray.length - 1; i++) {
-        this.remarks.push(remarkArray[i])
-        this.counter.push(i)
-      }
-      this.draw(3)
     },
     draw(r) {
       console.log(this.rects)

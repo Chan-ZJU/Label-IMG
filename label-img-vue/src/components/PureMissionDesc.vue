@@ -1,14 +1,14 @@
 <template>
   <p>mission ID: {{ this.$route.params.ID }}</p>
-  <div class="card" v-for="(image) in missionImages" :key="image.id">
-    <el-image :src="image.url"></el-image>
-  </div>
   <br>
   <el-button @click="getPASCAL_VOC(this.$route.params.ID)">导出PASCAL VOC</el-button>
   <br>
   <el-button @click="getCOCO(this.$route.params.ID)">导出COCO</el-button>
   <div style="white-space: pre-line;">{{ this.VOC }}</div>
   <div style="white-space: pre-line;">{{ this.COCO }}</div>
+  <div class="card" v-for="(image) in missionImages" :key="image.id">
+    <el-image :src="image.url"></el-image>
+  </div>
 </template>
 
 <script>

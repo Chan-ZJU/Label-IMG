@@ -73,4 +73,16 @@ public interface MissionMapper {
 
     @Update("update mission set state = 3 where id = #{missionID}")
     public int finishMission(@Param("missionID") int missionID);
+
+    @Select("select count(*) from mission where state = 0")
+    public int getNewMissionCount();
+
+    @Select("select count(*) from mission")
+    public int getAllMissionCount();
+
+    @Select("select count(*) from mission where state = 1 or state = 2")
+    public int getClaimedMissionCount();
+
+    @Select("select count(*) from mission where state = 3")
+    public int getFinishedMissionCount();
 }

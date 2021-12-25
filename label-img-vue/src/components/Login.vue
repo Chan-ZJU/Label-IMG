@@ -57,6 +57,8 @@ export default {
       }).then((success) => {
         if (success.data === 200) {
           this.$router.replace('/managerIndex')
+        } else {
+          console.log(success)
         }
       }).catch((e) => {
         console.log(e)

@@ -4,7 +4,7 @@
   <div class="card" v-for="(image, index) in missionImages" :key="image.id">
     <el-image :src="image.url+'?'+new Date().getTime()" :id="image.id" alt="labelIMG" ref="image"
               crossOrigin=""></el-image>
-    <el-button @click="dialogVisible[index] = true;getSingle(image.id)">开始标注</el-button>
+    <el-button @click="dialogVisible[index] = true;getSingle(image.id)">开始审核</el-button>
     <el-dialog v-model="dialogVisible[index]" fullscreen @opened="init(image.id);">
       <h2>审核界面</h2>
       <canvas :id="'canvas'+image.id" @mousedown="handleMouseDown($event)"
@@ -15,6 +15,7 @@
         {{ index }}
         <el-input :id="txt" type="text" v-model="remarks[index]" placeholder="标注备注"/>
       </div>
+      <el-button @click="reset">清空标注</el-button>
       <el-button @click="submitLabel(image.id)">审核完成</el-button>
       <br>
     </el-dialog>
@@ -81,21 +82,23 @@ export default {
       this.counter = []
       this.remarks = []
       //get previous label points
-      let pointsX = this.singleImage.pointsX.split(",")
-      let pointsY = this.singleImage.pointsY.split(",")
-      for (let i = 0; i < pointsX.length - 1; i++) {
-        let Point = {
-          x: Math.ceil((parseInt(pointsX[i]) / this.naturalWidth) * this.width),
-          y: Math.ceil((parseInt(pointsY[i]) / this.naturalHeight) * this.height)
+      if (this.singleImage.pointsX !== null) {
+        let pointsX = this.singleImage.pointsX.split(",")
+        let pointsY = this.singleImage.pointsY.split(",")
+        for (let i = 0; i < pointsX.length - 1; i++) {
+          let Point = {
+            x: Math.ceil((parseInt(pointsX[i]) / this.naturalWidth) * this.width),
+            y: Math.ceil((parseInt(pointsY[i]) / this.naturalHeight) * this.height)
+          }
+          this.rects.push(Point)
         }
-        this.rects.push(Point)
+        let remarkArray = this.singleImage.remarks.split(",")
+        for (let i = 0; i < remarkArray.length - 1; i++) {
+          this.remarks.push(remarkArray[i])
+          this.counter.push(i)
+        }
+        this.draw(3)
       }
-      let remarkArray = this.singleImage.remarks.split(",")
-      for (let i = 0; i < remarkArray.length - 1; i++) {
-        this.remarks.push(remarkArray[i])
-        this.counter.push(i)
-      }
-      this.draw(3)
     },
     draw(r) {
       console.log(this.rects)
@@ -289,6 +292,12 @@ export default {
         console.log(e)
       })
     },
+    reset() {
+      this.rects = []
+      this.remarks = []
+      this.counter = []
+      this.draw(4)
+    }
   },
   mounted() {
     axios.post("missionDesc/", {fromID: this.$route.params.ID}).then((success) => {
