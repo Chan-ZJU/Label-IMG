@@ -46,7 +46,7 @@ public interface MissionMapper {
     @Select("select * from mission where fromID = #{ID}")
     public List<Mission> getMyMission(@Param("ID") int ID);
 
-    @Select("select * from mission")
+    @Select("select * from mission where state = 0")
     public List<Mission> getAllMission();
 
     @Select("select imageID from image_mission where missionID = #{ID}")
@@ -63,4 +63,7 @@ public interface MissionMapper {
 
     @Update("update mission set state = 2 where id = #{ID}")
     public int submitMission(@Param("ID") int ID);
+
+    @Select("select * from mission where state = 2")
+    public List<Mission> getCheck();
 }

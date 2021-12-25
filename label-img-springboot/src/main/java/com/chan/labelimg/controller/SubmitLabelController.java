@@ -66,7 +66,10 @@ public class SubmitLabelController {
         }
         List<ImageMission> imageMissionList = labelMissionService.getImageMissionByMissionID(missionID);
 
-        for (int i = 0; i < urlList.size(); i++) {
+        for (int i = 0; i < imageMissionList.size(); i++) {
+            if (imageMissionList.get(i).getRemarks() == null) {
+                continue;
+            }
             // url
             PASCAL_VOC.append("    <imageURL>\n").append(urlList.get(i)).append("</imageURL>\n");
             // size
@@ -117,7 +120,10 @@ public class SubmitLabelController {
         JSONArray images = new JSONArray();
         List<Img> imgList = missionService.getImgByMissionID(missionID);
         List<ImageMission> imageMissionList = labelMissionService.getImageMissionByMissionID(missionID);
-        for (int i = 0; i < imgList.size(); i++) {
+        for (int i = 0; i < imageMissionList.size(); i++) {
+            if (imageMissionList.get(i).getRemarks() == null) {
+                continue;
+            }
             JSONObject outImage = new JSONObject(true);
             JSONObject image = new JSONObject(true);
             image.put("id", imgList.get(i).getId());
@@ -132,6 +138,9 @@ public class SubmitLabelController {
         JSONArray categories = new JSONArray();
         Map<String, String> categoryMap = new HashMap<>();
         for (int i = 0; i < imgList.size(); i++) {
+            if (imageMissionList.get(i).getRemarks() == null) {
+                continue;
+            }
             String[] remarkArray = imageMissionList.get(i).getRemarks().split(",");
             for (int j = 0; j < remarkArray.length; j++) {
                 JSONObject outCategory = new JSONObject(true);
@@ -149,6 +158,9 @@ public class SubmitLabelController {
 
         JSONArray annotations = new JSONArray();
         for (int i = 0; i < imgList.size(); i++) {
+            if (imageMissionList.get(i).getRemarks() == null) {
+                continue;
+            }
             String[] remarkArray = imageMissionList.get(i).getRemarks().split(",");
             String[] pointXArray = imageMissionList.get(i).getPointsX().split(",");
             String[] pointYArray = imageMissionList.get(i).getPointsY().split(",");

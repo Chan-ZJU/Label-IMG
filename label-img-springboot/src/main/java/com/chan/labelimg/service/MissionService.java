@@ -56,4 +56,8 @@ public class MissionService {
     public int submitMission(int ID) {
         return missionMapper.submitMission(ID);
     }
+
+    public List<Mission> getCheck(){
+        return missionMapper.getCheck();
+    }
 }

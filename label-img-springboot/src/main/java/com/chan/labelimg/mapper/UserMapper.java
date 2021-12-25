@@ -1,5 +1,6 @@
 package com.chan.labelimg.mapper;
 
+import com.chan.labelimg.pojo.Manager;
 import com.chan.labelimg.pojo.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -34,6 +35,9 @@ public interface UserMapper {
      */
     @Select("select * from user where username = #{username} and password = #{password}")
     User getByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+
+    @Select("select * from manager where username = #{username} and password = #{password}")
+    Manager getManagerByUsernamePassword(@Param("username") String username, @Param("password") String password);
 
     /**
      * @param username username

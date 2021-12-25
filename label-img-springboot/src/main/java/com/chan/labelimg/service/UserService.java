@@ -1,6 +1,7 @@
 package com.chan.labelimg.service;
 
 import com.chan.labelimg.mapper.UserMapper;
+import com.chan.labelimg.pojo.Manager;
 import com.chan.labelimg.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,11 @@ public class UserService {
         return userMapper.getByUsernameAndPassword(username, password);
     }
 
-    public int signupUser(String username, String password,String email){
-        return userMapper.signupUser(username,password,email);
+    public int signupUser(String username, String password, String email) {
+        return userMapper.signupUser(username, password, email);
+    }
+
+    public Manager getManager(String username, String password) {
+        return userMapper.getManagerByUsernamePassword(username, password);
     }
 }

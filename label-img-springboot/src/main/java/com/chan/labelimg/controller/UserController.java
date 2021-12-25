@@ -1,6 +1,7 @@
 package com.chan.labelimg.controller;
 
 import com.chan.labelimg.mapper.UserMapper;
+import com.chan.labelimg.pojo.Manager;
 import com.chan.labelimg.pojo.Result;
 import com.chan.labelimg.pojo.User;
 import com.chan.labelimg.service.UserService;
@@ -41,7 +42,7 @@ public class UserController {
 
         User user1 = userService.getByNameAndPassword(username, user.getPassword());
         if (null == user1) {
-            return new Result(400,-1);
+            return new Result(400, -1);
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
@@ -51,9 +52,22 @@ public class UserController {
     }
 
     @CrossOrigin
+    @PostMapping("managerLogin")
+    public int managerLogin(@RequestBody Manager manager) {
+        String username = manager.getUsername();
+        username = HtmlUtils.htmlEscape(username);
+        String password = manager.getPassword();
+        if (userService.getManager(username, password) == null) {
+            return 400;
+        } else {
+            return 200;
+        }
+    }
+
+    @CrossOrigin
     @PostMapping(value = "/signup")
     @ApiOperation(value = "用户注册")
-    public Result signup(HttpServletRequest request,@Validated({Signup.class, Default.class}) @RequestBody User user) {
+    public Result signup(HttpServletRequest request, @Validated({Signup.class, Default.class}) @RequestBody User user) {
         HttpSession session = request.getSession();
         session.invalidate();
         String username = user.getUsername();
