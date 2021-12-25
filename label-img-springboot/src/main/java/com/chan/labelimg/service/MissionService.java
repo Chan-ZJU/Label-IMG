@@ -1,14 +1,13 @@
 package com.chan.labelimg.service;
 
 import com.chan.labelimg.mapper.MissionMapper;
-import com.chan.labelimg.mapper.UploadMapper;
+import com.chan.labelimg.pojo.ImageMission;
 import com.chan.labelimg.pojo.Img;
 import com.chan.labelimg.pojo.Mission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author: chen zheng
@@ -57,7 +56,15 @@ public class MissionService {
         return missionMapper.submitMission(ID);
     }
 
-    public List<Mission> getCheck(){
+    public List<Mission> getCheck() {
         return missionMapper.getCheck();
+    }
+
+    public ImageMission getSingleImg(int imgID, int missionID) {
+        return missionMapper.getSingleImg(imgID, missionID);
+    }
+
+    public int finishMission(int missionID){
+        return missionMapper.finishMission(missionID);
     }
 }

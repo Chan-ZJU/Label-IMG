@@ -77,4 +77,19 @@ public class MissionController {
     public List<Mission> getCheck() {
         return missionService.getCheck();
     }
+
+    @CrossOrigin
+    @PostMapping("singleImage")
+    public ImageMission getSingleImage(@RequestBody Point request) {
+        int missionID = request.getX();
+        int imgID = request.getY();
+        return missionService.getSingleImg(imgID, missionID);
+    }
+
+    @CrossOrigin
+    @PostMapping("finishMission")
+    public int finishMission(@RequestBody FromID fromID) {
+        int missionID = fromID.getFromID();
+        return missionService.finishMission(missionID);
+    }
 }

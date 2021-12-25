@@ -1,5 +1,6 @@
 package com.chan.labelimg.mapper;
 
+import com.chan.labelimg.pojo.ImageMission;
 import com.chan.labelimg.pojo.Img;
 import com.chan.labelimg.pojo.Mission;
 import com.chan.labelimg.pojo.MissionClaimer;
@@ -66,4 +67,10 @@ public interface MissionMapper {
 
     @Select("select * from mission where state = 2")
     public List<Mission> getCheck();
+
+    @Select("select * from image_mission where imageID = #{imgID} and missionID = #{missionID}")
+    public ImageMission getSingleImg(@Param("imgID") int imgID, @Param("missionID") int missionID);
+
+    @Update("update mission set state = 3 where id = #{missionID}")
+    public int finishMission(@Param("missionID") int missionID);
 }
