@@ -4,7 +4,7 @@
   <div class="card" v-for="(image, index) in missionImages" :key="image.id">
     <el-image :src="image.url+'?'+new Date().getTime()" :id="image.id" alt="labelIMG" ref="image"
               crossOrigin=""></el-image>
-    <el-button @click="dialogVisible[index] = true">开始标注</el-button>
+    <el-button @click="dialogVisible[index] = true;getSingle(image.id)">开始标注</el-button>
     <el-dialog v-model="dialogVisible[index]" fullscreen @opened="init(image.id);">
       <h2>标注界面</h2>
       <canvas :id="'canvas'+image.id" @mousedown="handleMouseDown($event)"
@@ -16,6 +16,7 @@
         <el-input :id="txt" type="text" v-model="remarks[index]" placeholder="标注备注"/>
       </div>
       <br>
+      <el-button @click="reset">清空标注</el-button>
       <el-button @click="submitLabel(image.id)">提交标注</el-button>
     </el-dialog>
   </div>
@@ -39,6 +40,7 @@ export default {
       //data for mission display
       missionImages: [],
       missionState: '',
+      singleImage: '',
       //data for labeling
       selectID: null,
       dialogVisible: [],
@@ -51,7 +53,6 @@ export default {
       imageData: '',
       startPoint: '',
       pointNum: '',
-      labelPoint: [],
       rects: [],
       clickOnPoint: false,
       counter: [],
@@ -63,10 +64,8 @@ export default {
   },
   methods: {
     init(id) {
-      this.rects = []
-      this.labelPoint = []
-      this.counter = []
-      this.remarks = []
+      console.log("singleImage")
+      console.log(this.singleImage)
       let canvas = document.getElementById('canvas' + id)
       this.image = document.getElementById(id.toString())
       canvas.width = this.image.width
@@ -80,9 +79,31 @@ export default {
       canvas.addEventListener("touchstart", this.handleTouchDown)
       canvas.addEventListener("touchmove", this.handleTouchMove)
       canvas.addEventListener("touchend", this.handleTouchUp)
+
+      this.rects = []
+      this.counter = []
+      this.remarks = []
+      //get previous label points
+      let pointsX = this.singleImage.pointsX.split(",")
+      let pointsY = this.singleImage.pointsY.split(",")
+      for (let i = 0; i < pointsX.length - 1; i++) {
+        let Point = {
+          x: Math.ceil((parseInt(pointsX[i]) / this.naturalWidth) * this.width),
+          y: Math.ceil((parseInt(pointsY[i]) / this.naturalHeight) * this.height)
+        }
+        this.rects.push(Point)
+      }
+      let remarkArray = this.singleImage.remarks.split(",")
+      for (let i = 0; i < remarkArray.length - 1; i++) {
+        this.remarks.push(remarkArray[i])
+        this.counter.push(i)
+      }
+      this.draw(3)
     },
     draw(r) {
       console.log(this.rects)
+      this.ctx.fillStyle = 'rgba(255,0,0,0.1)'
+      this.ctx.strokeStyle = '#FF0000'
       this.ctx.clearRect(0, 0, this.image.width, this.image.height)
       this.ctx.drawImage(this.image, 0, 0, this.width, this.height)
       if (this.rects !== undefined) {
@@ -186,11 +207,6 @@ export default {
             y: e.offsetY
           }
         ]
-        if (this.labelPoint !== undefined) {
-          this.labelPoint.push(point[0])
-        } else {
-          this.labelPoint = point
-        }
         for (let i = 0; i < 4; i++) {
           this.rects.push(point[i])
         }
@@ -234,11 +250,6 @@ export default {
             y: y
           }
         ]
-        if (this.labelPoint !== undefined) {
-          this.labelPoint.push(point[0])
-        } else {
-          this.labelPoint = point
-        }
         for (let i = 0; i < 4; i++) {
           this.rects.push(point[i])
         }
@@ -306,13 +317,23 @@ export default {
       }).catch((e) => {
         console.log(e)
       })
+    },
+    getSingle(imageID) {
+      axios.post("singleImage", {x: this.$route.params.ID, y: imageID})
+          .then((success) => this.singleImage = success.data)
+          .catch((e) => console.log(e))
+    },
+    reset() {
+      this.rects = []
+      this.remarks = []
+      this.counter = []
+      this.draw(4)
     }
   },
   mounted() {
     axios.post("missionDesc/", {fromID: this.$route.params.ID}).then((success) => {
       this.missionImages = success.data
-      for (let i = 0; i < this.missionImages.length; i++
-      ) {
+      for (let i = 0; i < this.missionImages.length; i++) {
         this.dialogVisible.push(false)
       }
     }).catch((error) => {
