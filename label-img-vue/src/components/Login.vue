@@ -1,16 +1,27 @@
 <template>
-  <el-card>
-    用户名:<input type="text" v-model="loginForm.username" placeholder="请输入用户名">
-    <br>
-    密码:<input type="password" v-model="loginForm.password" placeholder="请输入密码">
-    <br>
-    <button v-on:click="login">用户登录</button>
-    <br>
-    <button v-on:click="managerLogin">管理员登陆</button>
-    <br>
-    <router-link to="/signup">用户注册</router-link>
-    <br>
-  </el-card>
+  <el-form class="login"
+           status-icon
+           label-width="120px"
+           label-position="top"
+  >
+    <el-form-item label="用户名" required>
+      <el-input type="text" v-model="loginForm.username" placeholder="请输入用户名" clearable>
+      </el-input>
+    </el-form-item>
+    <el-form-item label="密码" required>
+      <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" show-password>
+      </el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-button v-on:click="login" style="text-align: center;">用户登录</el-button>
+    </el-form-item>
+    <el-form-item>
+      <el-button v-on:click="managerLogin">管理员登陆</el-button>
+    </el-form-item>
+    <el-form-item>
+      <router-link to="/signup">用户注册</router-link>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>
@@ -68,3 +79,10 @@ export default {
 }
 
 </script>
+<style scoped>
+.login {
+  width: 450px;
+  margin: 100px auto;
+  padding: 20px;
+}
+</style>

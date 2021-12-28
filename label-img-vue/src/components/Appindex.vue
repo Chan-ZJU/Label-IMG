@@ -1,13 +1,34 @@
 <template>
-  欢迎用户: {{ this.$store.state.user.username }}
   <br>
-  当前站点总任务数: {{ this.count[0] }}
-  <br>
-  当前站点可领取任务数: {{ this.count[1] }}
-  <br>
-  当前站点已完成任务数: {{ this.count[2] }}
-  <br>
-  当前站点审核完毕任务数: {{ this.count[3] }}
+  欢迎用户:
+  <el-tag>{{ this.$store.state.user.username }}</el-tag>
+  <el-divider></el-divider>
+  当前站点总任务数:
+  <el-tag type="success">{{ this.count[0] }}</el-tag>
+  <div class="progress">
+    <el-progress type="dashboard" stroke-width="10"
+                 :percentage="(100*parseFloat( this.count[1])/parseFloat(this.count[0])).toFixed(1)">
+      <template #default="{ percentage }">
+        <span class="percentage-value">{{ percentage }}%</span>
+        <span class="percentage-label">可领取任务</span>
+      </template>
+    </el-progress>
+    <br>
+    <el-progress type="dashboard" stroke-width="10"
+                 :percentage="(100*parseFloat( this.count[2])/parseFloat(this.count[0])).toFixed(1)">
+      <template #default="{ percentage }">
+        <span class="percentage-value">{{ percentage }}%</span>
+        <span class="percentage-label">已领取任务</span>
+      </template>
+    </el-progress>
+    <el-progress type="dashboard" stroke-width="10"
+                 :percentage="(100*parseFloat( this.count[3])/parseFloat(this.count[0])).toFixed(1)">
+      <template #default="{ percentage }">
+        <span class="percentage-value">{{ percentage }}%</span>
+        <span class="percentage-label">审核完毕任务</span>
+      </template>
+    </el-progress>
+  </div>
 </template>
 <script>
 import axios from "axios";
@@ -26,3 +47,23 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.progress {
+  width: 450px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.percentage-label {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.percentage-value {
+  display: block;
+  margin-top: 10px;
+  font-size: 28px;
+}
+</style>
