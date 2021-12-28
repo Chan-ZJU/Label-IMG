@@ -76,6 +76,9 @@ public class SubmitLabelController {
             PASCAL_VOC.append("    <size>\n" + "        <width>").append(imageMissionList.get(i).getSizeX()).append("</width>\n").append("        <height>").append(imageMissionList.get(i).getSizeY()).append("</height>\n").append("    </size>\n");
             // objects
             String[] remarkList = imageMissionList.get(i).getRemarks().split(",");
+            if ("".equals(remarkList[0])) {
+                continue;
+            }
             String[] pointXList = imageMissionList.get(i).getPointsX().split(",");
             String[] pointYList = imageMissionList.get(i).getPointsY().split(",");
             for (int j = 0; j < remarkList.length; j++) {
@@ -142,6 +145,9 @@ public class SubmitLabelController {
                 continue;
             }
             String[] remarkArray = imageMissionList.get(i).getRemarks().split(",");
+            if("".equals(remarkArray[0])){
+                continue;
+            }
             for (int j = 0; j < remarkArray.length; j++) {
                 JSONObject outCategory = new JSONObject(true);
                 JSONObject category = new JSONObject(true);
@@ -162,6 +168,9 @@ public class SubmitLabelController {
                 continue;
             }
             String[] remarkArray = imageMissionList.get(i).getRemarks().split(",");
+            if ("".equals(remarkArray[0])) {
+                continue;
+            }
             String[] pointXArray = imageMissionList.get(i).getPointsX().split(",");
             String[] pointYArray = imageMissionList.get(i).getPointsY().split(",");
             for (int j = 0; j < remarkArray.length; j++) {

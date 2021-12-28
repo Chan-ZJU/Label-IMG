@@ -47,4 +47,7 @@ public interface UserMapper {
      */
     @Insert("insert into user (username, password, email) values (#{username}, #{password}, #{email})")
     int signupUser(@Param("username") String username, @Param("password") String password, @Param("email") String email);
+
+    @Select("select username from user where id = #{ID}")
+    String getNameByID(@Param("ID") int ID);
 }

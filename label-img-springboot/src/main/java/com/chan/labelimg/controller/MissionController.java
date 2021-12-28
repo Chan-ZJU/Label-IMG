@@ -50,7 +50,7 @@ public class MissionController {
 
     @CrossOrigin
     @PostMapping("missions")
-    public List<Mission> getAllMissions() {
+    public List<MissionDesc> getAllMissions() {
         return missionService.getAllMissions();
     }
 

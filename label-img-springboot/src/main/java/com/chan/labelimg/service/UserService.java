@@ -40,4 +40,8 @@ public class UserService {
     public Manager getManager(String username, String password) {
         return userMapper.getManagerByUsernamePassword(username, password);
     }
+
+    public String getUserName(int ID){
+        return userMapper.getNameByID(ID);
+    }
 }

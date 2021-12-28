@@ -1,9 +1,11 @@
 package com.chan.labelimg.service;
 
 import com.chan.labelimg.mapper.MissionMapper;
+import com.chan.labelimg.mapper.UserMapper;
 import com.chan.labelimg.pojo.ImageMission;
 import com.chan.labelimg.pojo.Img;
 import com.chan.labelimg.pojo.Mission;
+import com.chan.labelimg.pojo.MissionDesc;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,9 @@ import java.util.List;
 public class MissionService {
     @Autowired
     private MissionMapper missionMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     public int createMission(String desc, int fromID, List<Integer> selectedImages) {
         missionMapper.insertMission(desc, fromID);
@@ -37,8 +42,16 @@ public class MissionService {
         return missionMapper.getMissionByMissionID(ID);
     }
 
-    public List<Mission> getAllMissions() {
-        return missionMapper.getAllMission();
+    public List<MissionDesc> getAllMissions() {
+        List<MissionDesc> missionDescs = new ArrayList<>();
+        List<Mission> missionList = missionMapper.getAllMission();
+        for (Mission mission : missionList) {
+            String name = userMapper.getNameByID(mission.getFromID());
+            MissionDesc tmp = new MissionDesc(mission.getId(), mission.getDescription(), mission.getFromID(), mission.getToID(), mission.getState(), name);
+            missionDescs.add(tmp);
+        }
+        return missionDescs;
+
     }
 
     public List<Img> getImgByMissionID(int id) {
