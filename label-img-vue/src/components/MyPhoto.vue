@@ -1,21 +1,37 @@
 <template>
-  <p>my photos</p>
   <div id="photo">
+    <el-divider></el-divider>
     <el-button @click="(drawer = true);getCheckedBox()">创建任务</el-button>
+    <el-divider></el-divider>
+    <el-backtop :bottom="100">
+      <div
+          style=" height: 100%;
+        width: 100%;
+        background-color: #f2f5f6;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
+        text-align: center;
+        line-height: 40px;
+        color: #1989fa; "
+      >
+        TOP
+      </div>
+    </el-backtop>
     <el-drawer v-model="drawer" title="创建任务" :before-close="handleClose">
       <el-input v-model="missionDesc" placeholder="请输入标注内容"></el-input>
       <el-button @click="createMission();drawer=false" :disabled="cannotCreate">创建</el-button>
     </el-drawer>
-    <div class="card" v-for="(message) in images" :key="message.id">
-      <label v-bind:for="message.id.toString()">
-        <el-image :src="message.url"></el-image>
-      </label>
-      <br>
-      <input type="checkbox" name="chooseResult" v-bind:id="message.id.toString()">
-      <!--      <el-image :src="message.url"></el-image>-->
-      <!--      <br>-->
-      <!--      <el-checkbox :id="message.id.toString()" v-model="choose[message.id]" label="choose"></el-checkbox>-->
-    </div>
+    <el-row gutter="20" class="row_col">
+      <div class="card" v-for="(message) in images" :key="message.id">
+        <el-col>
+          <label v-bind:for="message.id.toString()">
+            <el-image :fit="fit" :src="message.url" style="width: 280px;height: 210px"></el-image>
+          </label>
+          <br>
+          <input type="checkbox" name="chooseResult" v-bind:id="message.id.toString()">
+        </el-col>
+      </div>
+      <el-divider></el-divider>
+    </el-row>
   </div>
 </template>
 
@@ -31,7 +47,8 @@ export default {
       choose: [],
       drawer: false,
       missionDesc: '',
-      cannotCreate: false
+      cannotCreate: false,
+      fit: 'contain',
     }
   },
   methods: {
@@ -66,6 +83,7 @@ export default {
       }).catch((error) => {
         console.log(error)
       })
+      this.$message.success("创建成功")
     }
   },
   mounted() {
@@ -81,5 +99,8 @@ export default {
 </script>
 
 <style scoped>
-
+.row_col {
+  margin: auto;
+  padding: 30px;
+}
 </style>

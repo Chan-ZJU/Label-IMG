@@ -11,7 +11,6 @@
       :on-preview="handlePreview"
       :before-upload="beforeUpload"
       :on-remove="handleRemove"
-      :before-remove="beforeRemove"
       :on-success="handleSuccess"
       :file-list="fileList"
   >
@@ -23,22 +22,31 @@
     </div>
     <template #tip>
       <div class="el-upload__tip">
-        jpg/png files with a size less than 500kb
+        请上传 mp4 视频
       </div>
     </template>
   </el-upload>
-  <el-dialog v-model="dialogVisible">
-    <video id="video" width=400 :src=dialogVideoUrl controls alt=""></video>
-    <br>
-    <el-button @click="screenShot">点击截图</el-button>
-    <el-form :inline="true">
+  <el-dialog v-model="dialogVisible" fullscreen>
+    <video id="video" width="350" :src=dialogVideoUrl controls alt=""></video>
+    <el-divider></el-divider>
+    <el-form
+        :inline="false"
+        class="screenshot"
+        label-position="top"
+        status-icon
+    >
       <el-form-item>
-        <el-input v-model="srcInterval" placeholder="请输入截图间隔(ms)">截图间隔</el-input>
+        <el-button @click="screenShot" round>点击截图</el-button>
+      </el-form-item>
+      <el-form-item label="截图间隔(ms)" required>
+        <el-input v-model="srcInterval" placeholder="请输入截图间隔(ms)" clearable>截图间隔</el-input>
+      </el-form-item>
+      <el-form-item label="截图数量" required>
+        <el-input v-model="srcNum" placeholder="请输入截图数量" clearable>截图张数</el-input>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="srcNum" placeholder="请输入截图数量">截图张数</el-input>
+        <el-button @click="autoScreenShot" round>自动截图</el-button>
       </el-form-item>
-      <el-button @click="autoScreenShot">自动截图</el-button>
     </el-form>
     <div id="photos"></div>
   </el-dialog>
@@ -73,7 +81,11 @@ export default {
       if (this.fileList.length > 0) {
         this.fileList = []
       }
-      console.log(file.raw)
+      let isMp4 = file.type === 'video/mp4'
+      if (!isMp4) {
+        this.$message.error("请上传视频")
+      }
+      return isMp4
     },
     handlePreview(file) {
       console.log(file)
@@ -83,9 +95,6 @@ export default {
     },
     handleRemove(file) {
       console.log(file)
-    },
-    beforeRemove(file) {
-      return this.$confirm(`确认删除${file.name}?`)
     },
     handleSuccess(response) {
       console.log(response)
@@ -108,7 +117,7 @@ export default {
       console.log("photos: " + photos)
       this.listThumbnails.forEach((item) => {
         if (item) {
-          item.setAttribute("style","width:100px;height:75px")
+          item.setAttribute("style", "width:200px;height:150px")
           photos.appendChild(item);
         }
       });
@@ -158,5 +167,9 @@ export default {
 </script>
 
 <style scoped>
-
+.screenshot {
+  width: 300px;
+  margin: auto;
+  padding: 20px;
+}
 </style>

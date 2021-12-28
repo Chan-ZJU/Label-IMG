@@ -1,11 +1,31 @@
 <template>
-  <p>all missions</p>
-  <div class="card" v-for="(mission) in missions" :key="mission.id">
-    <router-link :to="{name:'missionDesc', params:{ID:mission.id}}">desc: {{ mission.description }}, state:
-      {{ mission.state }}, fromID:
-      {{ mission.fromID }} missionID: {{ mission.id }} toID: {{ mission.toID }}
-    </router-link>
-  </div>
+  <el-row gutter="20" class="card">
+    <div class="card" v-for="(mission) in missions" :key="mission.id">
+      <el-col>
+        <el-card>
+          <div v-if="mission.state===0">
+            <el-tag type="danger">空闲</el-tag>
+          </div>
+          <div v-if="mission.state===1">
+            <el-tag color="pink">任务中</el-tag>
+          </div>
+          <div v-if="mission.state===2">
+            <el-tag type="warning">审核中</el-tag>
+          </div>
+          <div v-if="mission.state===3">
+            <el-tag type="success">完成</el-tag>
+          </div>
+          <h4>任务描述: {{ mission.description }}</h4>
+          <p>发布用户: {{ mission.user }}</p>
+          <router-link :to="{name:'missionDesc', params:{ID:mission.id}}">
+            <el-tag>
+              查看详情
+            </el-tag>
+          </router-link>
+        </el-card>
+      </el-col>
+    </div>
+  </el-row>
 </template>
 
 <script>
@@ -16,11 +36,6 @@ export default {
   data() {
     return {
       missions: [],
-    }
-  },
-  methods: {
-    getHref(id) {
-      return "/missionDesc-" + id
     }
   },
   mounted() {
@@ -36,5 +51,8 @@ export default {
 </script>
 
 <style scoped>
-
+.card {
+  margin: auto;
+  padding: 30px;
+}
 </style>

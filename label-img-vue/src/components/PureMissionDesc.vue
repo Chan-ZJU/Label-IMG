@@ -6,9 +6,16 @@
   <el-button @click="getCOCO(this.$route.params.ID)">导出COCO</el-button>
   <div style="white-space: pre-line;">{{ this.VOC }}</div>
   <div style="white-space: pre-line;">{{ this.COCO }}</div>
-  <div class="card" v-for="(image) in missionImages" :key="image.id">
-    <el-image :src="image.url"></el-image>
-  </div>
+  <el-divider></el-divider>
+  <h2>图片集</h2>
+  <el-row gutter="20" class="row_col">
+    <div class="card" v-for="(message) in missionImages" :key="message.id">
+      <el-col>
+        <el-image :fit="fit" :src="message.url" style="width: 280px;height: 210px"></el-image>
+      </el-col>
+    </div>
+    <el-divider></el-divider>
+  </el-row>
 </template>
 
 <script>
@@ -23,6 +30,7 @@ export default {
       //result set
       VOC: '',
       COCO: '',
+      fit: 'contained'
     }
   },
   methods: {

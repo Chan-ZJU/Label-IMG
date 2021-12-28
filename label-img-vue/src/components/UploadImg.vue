@@ -11,7 +11,6 @@
       :on-preview="handlePreview"
       :before-upload="beforeUpload"
       :on-remove="handleRemove"
-      :before-remove="beforeRemove"
       :on-success="handleSuccess"
       :file-list="fileList"
   >
@@ -23,12 +22,12 @@
     </div>
     <template #tip>
       <div class="el-upload__tip">
-        jpg/png files with a size less than 500kb
+        请上传 jpg/png 图片
       </div>
     </template>
   </el-upload>
   <el-dialog v-model="dialogVisible">
-    <img width=500 :src="dialogImageUrl" alt=""/>
+    <el-image :src="dialogImageUrl" alt=""/>
   </el-dialog>
   <br>
 </template>
@@ -52,7 +51,12 @@ export default {
   },
   methods: {
     beforeUpload(file) {
-      console.log(file.raw)
+      let isJPG = file.type === 'image/jpeg'
+      let isPNG = file.type === 'image/png'
+      if (!isJPG && !isPNG) {
+        this.$message.error("请上传图片")
+      }
+      return isJPG || isPNG
     },
     handlePreview(file) {
       this.dialogImageUrl = file.response
@@ -60,10 +64,6 @@ export default {
     },
     handleRemove(file) {
       console.log(file)
-    },
-    beforeRemove(file) {
-      //TODO: add axios to delete file
-      this.$confirm({content: `确认删除 ${file.name}?`, title: "确认删除图片?"})
     },
     handleSuccess(response) {
       console.log(response)

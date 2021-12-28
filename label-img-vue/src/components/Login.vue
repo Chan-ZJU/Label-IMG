@@ -81,8 +81,8 @@ export default {
 </script>
 <style scoped>
 .login {
-  width: 450px;
-  margin: 100px auto;
+  width: 300px;
+  margin: auto;
   padding: 20px;
 }
 </style>

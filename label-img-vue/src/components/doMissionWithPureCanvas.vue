@@ -1,26 +1,32 @@
 <template>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-  <p>mission ID: {{ this.$route.params.ID }}</p>
-  <div class="card" v-for="(image, index) in missionImages" :key="image.id">
-    <el-image :src="image.url+'?'+new Date().getTime()" :id="image.id" alt="labelIMG" ref="image"
-              crossOrigin=""></el-image>
-    <el-button @click="dialogVisible[index] = true;getSingle(image.id)">开始标注</el-button>
-    <el-dialog v-model="dialogVisible[index]" fullscreen @opened="init(image.id);">
-      <h2>标注界面</h2>
-      <canvas :id="'canvas'+image.id" @mousedown="handleMouseDown($event)"
-              @mousemove="handleMouseMove( $event)"
-              @mouseup="handleMouseUp($event) "/>
-      <br>
-      <div class="input" v-for="(txt,index) in counter" :key="index">
-        {{ index }}
-        <el-input :id="txt" type="text" v-model="remarks[index]" placeholder="标注备注"/>
-      </div>
-      <br>
-      <el-button @click="reset">清空标注</el-button>
-      <el-button @click="submitLabel(image.id)">提交标注</el-button>
-    </el-dialog>
-  </div>
+
+  <el-row gutter="20" class="row_col">
+    <div class="card" v-for="(image, index) in missionImages" :key="image.id">
+      <el-col>
+        <el-image :src="image.url+'?'+new Date().getTime()" :fit="fit" style="width: 360px; height: 270px"
+                  :id="image.id" alt="labelIMG" ref="image"
+                  crossOrigin=""></el-image>
+        <el-button @click="dialogVisible[index] = true;getSingle(image.id)">开始标注</el-button>
+        <el-dialog v-model="dialogVisible[index]" fullscreen @opened="init(image.id);">
+          <h2>标注界面</h2>
+          <canvas :id="'canvas'+image.id" @mousedown="handleMouseDown($event)"
+                  @mousemove="handleMouseMove( $event)"
+                  @mouseup="handleMouseUp($event) "/>
+          <br>
+          <div class="input" v-for="(txt,index) in counter" :key="index">
+            {{ index }}
+            <el-input :id="txt" type="text" v-model="remarks[index]" placeholder="标注备注"/>
+          </div>
+          <br>
+          <el-button @click="reset">清空标注</el-button>
+          <el-button @click="submitLabel(image.id)">提交标注</el-button>
+        </el-dialog>
+      </el-col>
+    </div>
+  </el-row>
   <el-divider></el-divider>
+
   <el-button @click="submitMission(this.$route.params.ID)">提交任务</el-button>
   <br>
   <el-button @click="getPASCAL_VOC(this.$route.params.ID)">导出PASCAL VOC</el-button>
@@ -60,6 +66,7 @@ export default {
       //result set
       VOC: '',
       COCO: '',
+      fit: 'contained'
     }
   },
   methods: {
@@ -68,8 +75,8 @@ export default {
       console.log(this.singleImage)
       let canvas = document.getElementById('canvas' + id)
       this.image = document.getElementById(id.toString())
-      canvas.width = this.image.width
-      canvas.height = this.image.height
+      canvas.width = this.image.naturalWidth
+      canvas.height = this.image.naturalHeight
       this.width = this.image.width
       this.height = this.image.height
       this.naturalHeight = this.image.naturalHeight

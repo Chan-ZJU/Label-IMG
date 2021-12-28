@@ -50,8 +50,8 @@ export default {
 
 <style scoped>
 .progress {
-  width: 450px;
-  margin: 50px auto;
+  width: auto;
+  margin: auto;
   padding: 20px;
 }
 

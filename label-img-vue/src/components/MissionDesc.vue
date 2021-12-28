@@ -1,11 +1,14 @@
 <template>
-  <p>mission ID: {{ this.$route.params.ID }}</p>
-  <div class="card" v-for="(image) in missionImages" :key="image.id">
-    <el-image :src="image.url"></el-image>
-  </div>
+  <h3>任务详情</h3>
+  <el-row gutter="20" class="row_col">
+    <div class="card" v-for="(message) in missionImages" :key="message.id">
+      <el-col>
+        <el-image :fit="fit" :src="message.url" style="width: 560px;height: 420px"></el-image>
+      </el-col>
+    </div>
+  </el-row>
   <el-button @click="claimMission" :disabled="canClaim">认领任务</el-button>
 </template>
-
 <script>
 import axios from "axios";
 
@@ -16,6 +19,7 @@ export default {
       missionImages: [],
       missionState: '',
       canClaim: false,
+      fit: 'contain',
     }
   },
   methods: {
@@ -28,6 +32,8 @@ export default {
       }).catch((error) => {
         console.log(error)
       })
+      this.$message.success("领取成功")
+      this.canClaim = true
     }
   },
   mounted() {
@@ -51,5 +57,8 @@ export default {
 </script>
 
 <style scoped>
-
+.row_col {
+  margin: auto;
+  padding: 30px;
+}
 </style>

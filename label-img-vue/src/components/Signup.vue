@@ -58,8 +58,8 @@ export default {
 
 <style scoped>
 .signup {
-  width: 450px;
-  margin: 100px auto;
+  width: 300px;
+  margin: auto;
   padding: 20px;
 }
 </style>
