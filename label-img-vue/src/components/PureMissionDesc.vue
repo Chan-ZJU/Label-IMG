@@ -1,11 +1,39 @@
 <template>
-  <p>mission ID: {{ this.$route.params.ID }}</p>
   <br>
-  <el-button @click="getPASCAL_VOC(this.$route.params.ID)">导出PASCAL VOC</el-button>
+  <el-button @click="getPASCAL_VOC(this.$route.params.ID);seeVOC=true">导出PASCAL VOC</el-button>
+  <el-dialog
+      v-model="seeVOC"
+      title="PASCAL VOC"
+      fullscreen
+  >
+    <text class="content">
+      <vue-code-highlight language="xml">
+      <pre>
+        {{ this.VOC }}
+      </pre>
+      </vue-code-highlight>
+    </text>
+    <el-button @click="seeVOC = false">Cancel</el-button>
+    <el-button type="primary" @click="seeVOC = false"
+    >Confirm
+    </el-button>
+  </el-dialog>
   <br>
-  <el-button @click="getCOCO(this.$route.params.ID)">导出COCO</el-button>
-  <div style="white-space: pre-line;">{{ this.VOC }}</div>
-  <div style="white-space: pre-line;">{{ this.COCO }}</div>
+  <el-button @click="getCOCO(this.$route.params.ID);seeCOCO=true">导出COCO</el-button>
+  <el-dialog
+      v-model="seeCOCO"
+      title="COCO"
+      width="30%"
+  >
+    <span class="content">
+      <json-viewer :value="COCO"></json-viewer>
+    </span>
+    <span class="dialog-footer">
+        <el-button @click="seeCOCO = false">Cancel</el-button>
+        <el-button type="primary" @click="seeCOCO = false"
+        >Confirm</el-button>
+      </span>
+  </el-dialog>
   <el-divider></el-divider>
   <h2>图片集</h2>
   <el-row gutter="20" class="row_col">
@@ -30,7 +58,9 @@ export default {
       //result set
       VOC: '',
       COCO: '',
-      fit: 'contained'
+      fit: 'contained',
+      seeVOC: false,
+      seeCOCO: false
     }
   },
   methods: {
@@ -78,5 +108,7 @@ export default {
 </script>
 
 <style scoped>
-
+.content {
+  text-align: left;
+}
 </style>
