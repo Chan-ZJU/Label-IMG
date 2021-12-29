@@ -71,7 +71,7 @@ public class SubmitLabelController {
                 continue;
             }
             // url
-            PASCAL_VOC.append("    <imageURL>\n").append(urlList.get(i)).append("</imageURL>\n");
+            PASCAL_VOC.append("    <imageURL>\n        ").append(urlList.get(i)).append("\n    </imageURL>\n");
             // size
             PASCAL_VOC.append("    <size>\n" + "        <width>").append(imageMissionList.get(i).getSizeX()).append("</width>\n").append("        <height>").append(imageMissionList.get(i).getSizeY()).append("</height>\n").append("    </size>\n");
             // objects
