@@ -4,10 +4,11 @@
   <el-row gutter="20" class="row_col">
     <div class="card" v-for="(image, index) in missionImages" :key="image.id">
       <el-col>
-        <el-image :src="image.url+'?'+new Date().getTime()" :fit="fit" style="width: 360px; height: 270px"
+        <el-image :src="image.url+'?'+new Date().getTime()" :fit="fit"
                   :id="image.id" alt="labelIMG" ref="image"
                   crossOrigin=""></el-image>
-        <el-button @click="dialogVisible[index] = true;getSingle(image.id)">开始标注</el-button>
+        <br>
+        <el-button @click="dialogVisible[index] = true;getSingle(image.id)" :disabled="isFinish">开始标注</el-button>
         <el-dialog v-model="dialogVisible[index]" fullscreen @opened="init(image.id);">
           <h2>标注界面</h2>
           <canvas :id="'canvas'+image.id" @mousedown="handleMouseDown($event)"
@@ -16,24 +17,52 @@
           <br>
           <div class="input" v-for="(txt,index) in counter" :key="index">
             {{ index }}
-            <el-input :id="txt" type="text" v-model="remarks[index]" placeholder="标注备注"/>
+            <el-input style="width: 300px" :id="txt" type="text" v-model="remarks[index]" placeholder="标注备注" clearable/>
           </div>
-          <br>
           <el-button @click="reset">清空标注</el-button>
-          <el-button @click="submitLabel(image.id)">提交标注</el-button>
+          <el-button @click="submitLabel(image.id);dialogVisible[index]=false">提交标注</el-button>
         </el-dialog>
       </el-col>
     </div>
   </el-row>
   <el-divider></el-divider>
 
-  <el-button @click="submitMission(this.$route.params.ID)">提交任务</el-button>
+  <el-button @click="submitMission(this.$route.params.ID)" :disabled="isFinish">提交任务</el-button>
   <br>
-  <el-button @click="getPASCAL_VOC(this.$route.params.ID)">导出PASCAL VOC</el-button>
+  <el-button @click="getPASCAL_VOC(this.$route.params.ID);seeVOC=true">导出PASCAL VOC</el-button>
+  <el-dialog
+      v-model="seeVOC"
+      title="PASCAL VOC"
+      fullscreen
+  >
+    <text class="content">
+      <vue-code-highlight language="xml">
+      <pre>
+        {{ this.VOC }}
+      </pre>
+      </vue-code-highlight>
+    </text>
+    <el-button @click="seeVOC = false">Cancel</el-button>
+    <el-button type="primary" @click="seeVOC = false"
+    >Confirm
+    </el-button>
+  </el-dialog>
   <br>
-  <el-button @click="getCOCO(this.$route.params.ID)">导出COCO</el-button>
-  <div style="white-space: pre-line;">{{ this.VOC }}</div>
-  <div style="white-space: pre-line;">{{ this.COCO }}</div>
+  <el-button @click="getCOCO(this.$route.params.ID);seeCOCO=true">导出COCO</el-button>
+  <el-dialog
+      v-model="seeCOCO"
+      title="COCO"
+      width="30%"
+  >
+    <span class="content">
+      <json-viewer :value="COCO"></json-viewer>
+    </span>
+    <span class="dialog-footer">
+        <el-button @click="seeCOCO = false">Cancel</el-button>
+        <el-button type="primary" @click="seeCOCO = false"
+        >Confirm</el-button>
+      </span>
+  </el-dialog>
 </template>
 
 <script>
@@ -66,7 +95,10 @@ export default {
       //result set
       VOC: '',
       COCO: '',
-      fit: 'contained'
+      fit: 'contained',
+      seeVOC: false,
+      seeCOCO: false,
+      isFinish: false,
     }
   },
   methods: {
@@ -75,8 +107,8 @@ export default {
       console.log(this.singleImage)
       let canvas = document.getElementById('canvas' + id)
       this.image = document.getElementById(id.toString())
-      canvas.width = this.image.naturalWidth
-      canvas.height = this.image.naturalHeight
+      canvas.width = this.image.width
+      canvas.height = this.image.height
       this.width = this.image.width
       this.height = this.image.height
       this.naturalHeight = this.image.naturalHeight
@@ -295,8 +327,10 @@ export default {
       }).catch((e) => {
         console.log(e)
       })
+      this.$message.success("标注成功")
     },
     submitMission(missionID) {
+      this.$message.success("提交成功")
       axios.post("submitMission/", {
         fromID: missionID
       }).then((success) => {
@@ -306,6 +340,7 @@ export default {
       })
     },
     getPASCAL_VOC(missionID) {
+      this.$message.success("导出成功")
       axios.post("getPASCALVOC", {
         fromID: missionID
       }).then((success) => {
@@ -317,6 +352,7 @@ export default {
       })
     },
     getCOCO(missionID) {
+      this.$message.success("导出成功")
       axios.post("getCOCO", {
         fromID: missionID
       }).then((success) => {
@@ -352,8 +388,8 @@ export default {
     axios.post("getSingleMission", {fromID: this.$route.params.ID}).then((success) => {
       this.missionState = success.data
       console.log(this.missionState)
-      if (this.missionState.state === 1) {
-        this.canClaim = true;
+      if (this.missionState.state === 3) {
+        this.isFinish = true;
       }
     }).catch((error) => {
       console.log(error)
@@ -363,5 +399,12 @@ export default {
 </script>
 
 <style scoped>
+.row_col {
+  margin: auto;
+  padding: 40px;
+}
 
+.content {
+  text-align: left;
+}
 </style>

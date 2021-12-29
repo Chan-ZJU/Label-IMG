@@ -1,25 +1,29 @@
 <template>
-  {{ this.$route.params.ID }}
+  <el-divider></el-divider>
   <el-button @click="goBack">返回任务列表</el-button>
-  <div class="card" v-for="(image, index) in missionImages" :key="image.id">
-    <el-image :src="image.url+'?'+new Date().getTime()" :id="image.id" alt="labelIMG" ref="image"
-              crossOrigin=""></el-image>
-    <el-button @click="dialogVisible[index] = true;getSingle(image.id)">开始审核</el-button>
-    <el-dialog v-model="dialogVisible[index]" fullscreen @opened="init(image.id);">
-      <h2>审核界面</h2>
-      <canvas :id="'canvas'+image.id" @mousedown="handleMouseDown($event)"
-              @mousemove="handleMouseMove( $event)"
-              @mouseup="handleMouseUp($event) "/>
-      <br>
-      <div class="input" v-for="(txt,index) in counter" :key="index">
-        {{ index }}
-        <el-input :id="txt" type="text" v-model="remarks[index]" placeholder="标注备注"/>
-      </div>
-      <el-button @click="reset">清空标注</el-button>
-      <el-button @click="submitLabel(image.id)">审核完成</el-button>
-      <br>
-    </el-dialog>
-  </div>
+  <el-row gutter="20" class="row_col">
+    <div class="card" v-for="(image, index) in missionImages" :key="image.id">
+      <el-col>
+        <el-image :src="image.url+'?'+new Date().getTime()" :id="image.id" alt="labelIMG" ref="image"
+                  crossOrigin=""></el-image>
+        <br>
+        <el-button @click="dialogVisible[index] = true;getSingle(image.id)">开始审核</el-button>
+        <el-dialog v-model="dialogVisible[index]" fullscreen @opened="init(image.id);">
+          <h2>审核界面</h2>
+          <canvas :id="'canvas'+image.id" @mousedown="handleMouseDown($event)"
+                  @mousemove="handleMouseMove( $event)"
+                  @mouseup="handleMouseUp($event) "/>
+          <br>
+          <div class="input" v-for="(txt,index) in counter" :key="index">
+            {{ index }}
+            <el-input :id="txt" type="text" v-model="remarks[index]" placeholder="标注备注"/>
+          </div>
+          <el-button @click="reset">清空标注</el-button>
+          <el-button @click="submitLabel(image.id);dialogVisible[index]=false">审核完成</el-button>
+        </el-dialog>
+      </el-col>
+    </div>
+  </el-row>
   <el-button @click="submit">完成任务</el-button>
 </template>
 
@@ -60,6 +64,8 @@ export default {
           .catch((e) => {
             console.log(e)
           })
+      this.$message.success("审核成功")
+      this.$router.replace('/managerIndex')
     },
     init(id) {
       console.log("singleImage")
@@ -291,6 +297,7 @@ export default {
       }).catch((e) => {
         console.log(e)
       })
+      this.$message.success("审核成功")
     },
     reset() {
       this.rects = []
@@ -313,5 +320,12 @@ export default {
 </script>
 
 <style scoped>
+.row_col {
+  margin: auto;
+  padding: 40px;
+}
 
+.content {
+  text-align: left;
+}
 </style>

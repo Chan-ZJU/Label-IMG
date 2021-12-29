@@ -53,12 +53,16 @@ export default {
             if (successResponse.data.code === 200) {
               _this.loginForm.userID = successResponse.data.userID
               _this.$store.commit('login', _this.loginForm)
+              this.$message.success("登录成功")
               let path = this.$route.query.redirect
               this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
+            } else {
+              this.$message.error("登录失败")
             }
           })
           // eslint-disable-next-line no-unused-vars
           .catch(failResponse => {
+            this.$message.error("登录失败")
           })
     },
     managerLogin() {
@@ -67,11 +71,14 @@ export default {
         password: this.loginForm.password
       }).then((success) => {
         if (success.data === 200) {
+          this.$message.success("登录成功")
           this.$router.replace('/managerIndex')
         } else {
+          this.$message.error("登录失败")
           console.log(success)
         }
       }).catch((e) => {
+        this.$message.error("登录失败")
         console.log(e)
       })
     }

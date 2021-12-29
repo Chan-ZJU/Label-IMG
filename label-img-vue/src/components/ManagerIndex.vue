@@ -1,5 +1,9 @@
 <template>
-  管理员主页
+  <el-divider></el-divider>
+  <h2>管理员主页</h2>
+  <div v-if="missions.length===0">
+    <el-tag type="success">当前没有待审核任务</el-tag>
+  </div>
   <el-row gutter="20" class="card">
     <div class="card" v-for="(mission) in missions" :key="mission.id">
       <el-col>
