@@ -24,6 +24,7 @@
       </el-col>
     </div>
   </el-row>
+  <el-divider></el-divider>
   <el-button @click="submit">完成任务</el-button>
 </template>
 
@@ -60,12 +61,14 @@ export default {
     },
     submit() {
       axios.post("finishMission", {fromID: this.$route.params.ID})
-          .then((success) => console.log(success))
+          .then((success) => {
+            console.log(success)
+            this.$router.replace('/managerIndex')
+          })
           .catch((e) => {
             console.log(e)
           })
       this.$message.success("审核成功")
-      this.$router.replace('/managerIndex')
     },
     init(id) {
       console.log("singleImage")
