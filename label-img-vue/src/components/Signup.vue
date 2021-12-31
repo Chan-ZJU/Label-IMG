@@ -49,8 +49,13 @@ export default {
             console.log(successResponse)
             if (successResponse.data.code === 200) {
               this.$router.replace('/login')
+            } else {
+              this.$message.error("注册失败!")
             }
-          }))
+          })).catch((e) => {
+        console.log(e)
+        this.$message.error("注册失败 用户名6-50位, 密码6位以上")
+      })
     }
   }
 }
