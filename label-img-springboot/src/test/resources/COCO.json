@@ -3,7 +3,7 @@
     "year": 2021,
     "version": "1.0",
     "contributor": "user 5",
-    "date_created": "2021-12-24-20:39:24"
+    "date_created": "2021-12-31-23:15:15"
   },
   "license": {
     "name": "Label IMG License 1.0"
@@ -11,88 +11,88 @@
   "images": [
     {
       "image": {
-        "id": 2,
-        "width": 1920,
-        "height": 1080,
-        "url": "http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/24/fe524418-61ab-4911-a08d-64ac46b64341.png"
+        "id": 75,
+        "width": 1417,
+        "height": 570,
+        "url": "http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/31/34ddf59e-ddfa-4465-8dda-9b52780f1077.jpg"
       }
     },
     {
       "image": {
-        "id": 3,
-        "width": 246,
-        "height": 205,
-        "url": "http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/24/4ef38585-b736-4460-ae5f-f1a85f441f30.png"
+        "id": 76,
+        "width": 1417,
+        "height": 568,
+        "url": "http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/31/e3844332-b42d-4917-9c7f-d95ac11496c1.jpg"
       }
     }
   ],
   "annotations": [
     {
-      "id": "223251d2-7860-4eb9-b1bf-909b9042ea38",
-      "image_id": 2,
-      "category_id": "53de7a22-0226-4707-be7b-e655484c3a6d",
+      "id": "c809d0a8-af4c-41d8-ad90-01b477c60d57",
+      "image_id": 75,
+      "category_id": "e86c25bd-4017-4882-b87d-278b889686b1",
       "bbox": [
         {
-          "x": 519.15,
-          "y": 209.03
+          "x": 335.48,
+          "y": 24.2
         },
         {
-          "x": 652.57,
-          "y": 209.03
+          "x": 495.34,
+          "y": 24.2
         },
         {
-          "x": 652.57,
-          "y": 304.84
+          "x": 495.34,
+          "y": 242.04
         },
         {
-          "x": 519.15,
-          "y": 304.84
+          "x": 335.48,
+          "y": 242.04
         }
       ]
     },
     {
-      "id": "e286d6a8-5c49-4242-b32e-e9ffa0e895e2",
-      "image_id": 2,
-      "category_id": "01bd87aa-84dd-4bf3-b494-8eed41677597",
+      "id": "bd6816d3-3246-4f30-9fdc-a12d4c99f715",
+      "image_id": 75,
+      "category_id": "e86c25bd-4017-4882-b87d-278b889686b1",
       "bbox": [
         {
-          "x": 1006.4,
-          "y": 264.19
+          "x": 584.97,
+          "y": 39.94
         },
         {
-          "x": 1363.14,
-          "y": 264.19
+          "x": 828.4,
+          "y": 39.94
         },
         {
-          "x": 1363.14,
-          "y": 441.29
+          "x": 828.4,
+          "y": 101.66
         },
         {
-          "x": 1006.4,
-          "y": 441.29
+          "x": 584.97,
+          "y": 101.66
         }
       ]
     },
     {
-      "id": "d1cec87b-9d25-454e-9253-aeb0afd49939",
-      "image_id": 3,
-      "category_id": "01bd87aa-84dd-4bf3-b494-8eed41677597",
+      "id": "bcd11624-ab15-4222-bc78-87902108c908",
+      "image_id": 76,
+      "category_id": "e86c25bd-4017-4882-b87d-278b889686b1",
       "bbox": [
         {
-          "x": 101.0,
-          "y": 99.0
+          "x": 345.17,
+          "y": 32.7
         },
         {
-          "x": 206.0,
-          "y": 99.0
+          "x": 532.89,
+          "y": 32.7
         },
         {
-          "x": 206.0,
-          "y": 172.0
+          "x": 532.89,
+          "y": 242.22
         },
         {
-          "x": 101.0,
-          "y": 172.0
+          "x": 345.17,
+          "y": 242.22
         }
       ]
     }
@@ -100,14 +100,8 @@
   "categories": [
     {
       "category": {
-        "id": "53de7a22-0226-4707-be7b-e655484c3a6d",
-        "name": "房子"
-      }
-    },
-    {
-      "category": {
-        "id": "01bd87aa-84dd-4bf3-b494-8eed41677597",
-        "name": "云"
+        "id": "e86c25bd-4017-4882-b87d-278b889686b1",
+        "name": "人脸"
       }
     }
   ]

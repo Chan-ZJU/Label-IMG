@@ -1,42 +1,44 @@
-<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<?xml version="1.0" encoding="utf-8"?>
 <annotation>
-    <imageURL>http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/24/fe524418-61ab-4911-a08d-64ac46b64341.png
+    <imageURL>
+        http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/31/34ddf59e-ddfa-4465-8dda-9b52780f1077.jpg
     </imageURL>
     <size>
-        <width>1920</width>
-        <height>1080</height>
+        <width>1417</width>
+        <height>570</height>
     </size>
     <object>
-        <name>123</name>
+        <name>人脸</name>
         <bndbox>
-            <xmin>554.46</xmin>
-            <xmax>884.39</xmax>
-            <ymin>434.75</ymin>
-            <ymax>201.36</ymax>
+            <xmin>335.48</xmin>
+            <xmax>495.34</xmax>
+            <ymin>242.04</ymin>
+            <ymax>24.20</ymax>
         </bndbox>
     </object>
     <object>
-        <name>123</name>
+        <name>人脸</name>
         <bndbox>
-            <xmin>1195.99</xmin>
-            <xmax>1498.42</xmax>
-            <ymin>672.71</ymin>
-            <ymax>283.73</ymax>
+            <xmin>584.97</xmin>
+            <xmax>828.40</xmax>
+            <ymin>101.66</ymin>
+            <ymax>39.94</ymax>
         </bndbox>
     </object>
-    <imageURL>http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/24/4ef38585-b736-4460-ae5f-f1a85f441f30.png
+    <imageURL>
+        http://chanzjuoss.oss-cn-hangzhou.aliyuncs.com/2021/12/31/e3844332-b42d-4917-9c7f-d95ac11496c1.jpg
     </imageURL>
     <size>
-        <width>246</width>
-        <height>205</height>
+        <width>1417</width>
+        <height>568</height>
     </size>
     <object>
-        <name>3</name>
+        <name>人脸</name>
         <bndbox>
-            <xmin>89.00</xmin>
-            <xmax>146.00</xmax>
-            <ymin>88.00</ymin>
-            <ymax>48.00</ymax>
+            <xmin>345.17</xmin>
+            <xmax>532.89</xmax>
+            <ymin>242.22</ymin>
+            <ymax>32.70</ymax>
         </bndbox>
     </object>
 </annotation>
